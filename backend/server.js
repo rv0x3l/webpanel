@@ -142,6 +142,12 @@ wss.on('connection', async (ws, req) => {
     }
 
     if (route === '/ws/terminal') {
+      // viewer can't run commands
+      if (!['operator', 'admin'].includes(ws.user?.role)) {
+        ws.send('\r\n\x1b[31m[error] требуется роль operator или admin\x1b[0m\r\n');
+        ws.close(1008, 'forbidden');
+        return;
+      }
       const serverId = parseInt(url.searchParams.get('serverId') || '0', 10);
       const cols = parseInt(url.searchParams.get('cols') || '80', 10);
       const rows = parseInt(url.searchParams.get('rows') || '24', 10);
@@ -208,6 +214,10 @@ wss.on('connection', async (ws, req) => {
     }
 
     if (route === '/ws/vnc') {
+      if (!['operator', 'admin'].includes(ws.user?.role)) {
+        ws.close(1008, 'forbidden');
+        return;
+      }
       const serverId = parseInt(url.searchParams.get('serverId') || '0', 10);
       const db = getDb();
       const srv = db.prepare('SELECT * FROM servers WHERE id = ?').get(serverId);

@@ -137,7 +137,7 @@ router.get('/system/docker', authMiddleware, async (req, res) => {
   res.json(await getDockerInfo());
 });
 
-router.post('/system/action', authMiddleware, async (req, res) => {
+router.post('/system/action', authMiddleware, requireRole('operator'), async (req, res) => {
   const { action, args } = req.body || {};
   let result;
   switch (action) {
@@ -181,11 +181,11 @@ router.get('/sd/units/:name/logs', authMiddleware, async (req, res) => {
   try { res.json(await sd.unitLogs(req.params.name, req.query.lines)); }
   catch (e) { res.status(400).json({ error: e.message }); }
 });
-router.post('/sd/units/:name/action', authMiddleware, async (req, res) => {
+router.post('/sd/units/:name/action', authMiddleware, requireRole('operator'), async (req, res) => {
   try { res.json(await sd.unitAction(req.params.name, req.body?.op)); }
   catch (e) { res.status(400).json({ error: e.message }); }
 });
-router.post('/sd/daemon-reload', authMiddleware, async (req, res) => {
+router.post('/sd/daemon-reload', authMiddleware, requireRole('admin'), async (req, res) => {
   res.json(await sd.daemonReload());
 });
 
@@ -200,7 +200,7 @@ router.get('/dk/containers', authMiddleware, async (req, res) => {
 router.get('/dk/images', authMiddleware, async (req, res) => {
   res.json(await dk.listImages());
 });
-router.post('/dk/containers/:id/action', authMiddleware, async (req, res) => {
+router.post('/dk/containers/:id/action', authMiddleware, requireRole('operator'), async (req, res) => {
   try { res.json(await dk.containerAction(req.params.id, req.body?.op)); }
   catch (e) { res.status(400).json({ error: e.message }); }
 });
@@ -216,15 +216,15 @@ router.get('/dk/containers/:id/stats', authMiddleware, async (req, res) => {
   try { res.json(await dk.containerStats(req.params.id)); }
   catch (e) { res.status(400).json({ error: e.message }); }
 });
-router.delete('/dk/images/:id', authMiddleware, async (req, res) => {
+router.delete('/dk/images/:id', authMiddleware, requireRole('operator'), async (req, res) => {
   try { res.json(await dk.imageRemove(req.params.id)); }
   catch (e) { res.status(400).json({ error: e.message }); }
 });
-router.post('/dk/images/pull', authMiddleware, async (req, res) => {
+router.post('/dk/images/pull', authMiddleware, requireRole('operator'), async (req, res) => {
   try { res.json(await dk.imagePull(req.body?.image || '')); }
   catch (e) { res.status(400).json({ error: e.message }); }
 });
-router.post('/dk/prune', authMiddleware, async (req, res) => {
+router.post('/dk/prune', authMiddleware, requireRole('admin'), async (req, res) => {
   try { res.json(await dk.prune(req.body?.target)); }
   catch (e) { res.status(400).json({ error: e.message }); }
 });
@@ -240,7 +240,7 @@ router.get('/servers', authMiddleware, (req, res) => {
   res.json(rows);
 });
 
-router.post('/servers', authMiddleware, (req, res) => {
+router.post('/servers', authMiddleware, requireRole('operator'), (req, res) => {
   const db = getDb();
   const {
     name, host, port = 22, username, auth_type = 'password',
@@ -258,7 +258,7 @@ router.post('/servers', authMiddleware, (req, res) => {
   res.json({ id: r.lastInsertRowid });
 });
 
-router.put('/servers/:id', authMiddleware, (req, res) => {
+router.put('/servers/:id', authMiddleware, requireRole('operator'), (req, res) => {
   const db = getDb();
   const id = parseInt(req.params.id, 10);
   const cur = db.prepare('SELECT * FROM servers WHERE id = ?').get(id);
@@ -280,7 +280,7 @@ router.put('/servers/:id', authMiddleware, (req, res) => {
   res.json({ ok: true });
 });
 
-router.delete('/servers/:id', authMiddleware, (req, res) => {
+router.delete('/servers/:id', authMiddleware, requireRole('operator'), (req, res) => {
   const db = getDb();
   const id = parseInt(req.params.id, 10);
   const cur = db.prepare('SELECT * FROM servers WHERE id = ?').get(id);

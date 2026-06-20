@@ -411,6 +411,21 @@ table.kv td:first-child { color: var(--fg-3); width: 40%; }
   border-radius: 4px; font-family: var(--mono); font-size: 11px; color: var(--fg-2);
 }
 
+/* Hide dangerous buttons for viewer role */
+body[data-role="viewer"] .actions [data-action="reboot"],
+body[data-role="viewer"] .actions [data-action="poweroff"],
+body[data-role="viewer"] [data-svc-op],
+body[data-role="viewer"] [data-op],
+body[data-role="viewer"] [data-prune],
+body[data-role="viewer"] [data-kill],
+body[data-role="viewer"] [data-svc-open],
+body[data-role="viewer"] #add-server-btn,
+body[data-role="viewer"] [data-edit],
+body[data-role="viewer"] [data-del],
+body[data-role="viewer"] [data-img-del] {
+  display: none !important;
+}
+
 /* Plugins management grid */
 .plugins-grid {
   display: grid;

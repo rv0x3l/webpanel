@@ -101,8 +101,20 @@ async function boot() {
   await loadServers();
   await loadPlugins();
   buildAdminNav();
+  applyRoleUi();
   connectStatsWs();
   navigate(location.hash || '#/dashboard');
+}
+
+// Hide nav items the user has no rights to use
+function applyRoleUi() {
+  const role = state.user?.role;
+  const rank = { viewer: 1, operator: 2, admin: 3 }[role] || 0;
+  // Terminal and VNC require operator
+  $$('.sidebar nav a[data-route="terminal"], .sidebar nav a[data-route="vnc"]').forEach(a => {
+    a.hidden = rank < 2;
+  });
+  document.body.dataset.role = role || '';
 }
 
 // ---------- Plugins ----------
