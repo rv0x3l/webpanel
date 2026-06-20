@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-label="Terminal mockup">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a0a0a"/><stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <style>
+      .h { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; }
+      .m { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; }
+      .k { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; }
+    </style>
+  </defs>
+  <rect width="1200" height="600" fill="url(#bg)"/>
+
+  <!-- Card -->
+  <rect x="40" y="40" width="1120" height="520" rx="12" fill="#0a0a0a" stroke="#27272a"/>
+  <!-- Card header -->
+  <line x1="40" y1="96" x2="1160" y2="96" stroke="#27272a"/>
+  <text class="h" x="64" y="74" font-size="14" fill="#ededed">Терминал — This server</text>
+  <g transform="translate(900,52)">
+    <rect width="64"  height="28" rx="6" fill="#18181b" stroke="#27272a"/><text class="k" x="14" y="19" fill="#a1a1aa">Paste</text>
+    <rect x="72" width="56"  height="28" rx="6" fill="#18181b" stroke="#27272a"/><text class="k" x="86" y="19" fill="#a1a1aa">Copy</text>
+    <rect x="136" width="56"  height="28" rx="6" fill="#18181b" stroke="#27272a"/><text class="k" x="150" y="19" fill="#a1a1aa">Clear</text>
+    <rect x="200" width="80"  height="28" rx="6" fill="#18181b" stroke="#27272a"/><text class="k" x="214" y="19" fill="#a1a1aa">Reconnect</text>
+  </g>
+
+  <!-- Keys bar -->
+  <g transform="translate(56,108)">
+    <!-- sticky ctrl active -->
+    <rect width="48" height="32" rx="8" fill="#f38020"/><text class="k" x="11" y="20" fill="#000">Ctrl</text>
+    <g transform="translate(56,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="11" y="20" fill="#ededed">Alt</text></g>
+    <g transform="translate(108,0)"><rect width="56" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="11" y="20" fill="#ededed">Shift</text></g>
+    <g transform="translate(176,0)"><rect width="48" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="13" y="20" fill="#ededed">Esc</text></g>
+    <g transform="translate(232,0)"><rect width="48" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="13" y="20" fill="#ededed">Tab</text></g>
+    <g transform="translate(288,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="16" y="20" fill="#ededed">⌫</text></g>
+    <g transform="translate(344,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="16" y="20" fill="#ededed">↑</text></g>
+    <g transform="translate(396,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="16" y="20" fill="#ededed">↓</text></g>
+    <g transform="translate(448,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="16" y="20" fill="#ededed">←</text></g>
+    <g transform="translate(500,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="16" y="20" fill="#ededed">→</text></g>
+    <g transform="translate(560,0)"><rect width="60" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="20" y="20" fill="#ededed">^C</text></g>
+    <g transform="translate(628,0)"><rect width="60" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="20" y="20" fill="#ededed">^D</text></g>
+    <g transform="translate(696,0)"><rect width="60" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="20" y="20" fill="#ededed">^L</text></g>
+    <g transform="translate(764,0)"><rect width="60" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="20" y="20" fill="#ededed">^Z</text></g>
+    <g transform="translate(832,0)"><rect width="60" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="20" y="20" fill="#ededed">^O</text></g>
+    <g transform="translate(900,0)"><rect width="60" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="20" y="20" fill="#ededed">^X</text></g>
+    <g transform="translate(968,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="11" y="20" fill="#ededed">F1</text></g>
+    <g transform="translate(1020,0)"><rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/><text class="k" x="11" y="20" fill="#ededed">F2</text></g>
+  </g>
+  <line x1="40" y1="156" x2="1160" y2="156" stroke="#27272a"/>
+
+  <!-- Terminal -->
+  <rect x="56" y="172" width="1088" height="372" rx="6" fill="#000"/>
+  <g class="m" transform="translate(72,200)" fill="#ededed">
+    <text y="0"><tspan fill="#f38020">root@nodehost</tspan>:<tspan fill="#3b82f6">~</tspan>$ <tspan fill="#a1a1aa">nano /etc/nginx/nginx.conf</tspan></text>
+    <text y="28" fill="#ededed">  GNU nano 6.2                  /etc/nginx/nginx.conf</text>
+    <text y="56" fill="#a1a1aa">user www-data;</text>
+    <text y="78" fill="#a1a1aa">worker_processes auto;</text>
+    <text y="100" fill="#a1a1aa">events {</text>
+    <text y="122" fill="#a1a1aa">    worker_connections 1024;</text>
+    <text y="144" fill="#a1a1aa">}</text>
+    <text y="166" fill="#a1a1aa">http {</text>
+    <text y="188" fill="#a1a1aa">    include /etc/nginx/mime.types;</text>
+    <text y="210" fill="#a1a1aa">    sendfile on;</text>
+    <text y="232" fill="#a1a1aa">}</text>
+    <text y="280" fill="#71717a">^G Help    ^O Write Out  ^W Where Is  ^K Cut Text     ^J Justify</text>
+    <text y="302" fill="#71717a">^X Exit    ^R Read File  ^\ Replace   ^U Paste Text   ^T To Spell</text>
+    <text y="334"><tspan fill="#10b981">[ Wrote 24 lines ]</tspan></text>
+  </g>
+</svg>

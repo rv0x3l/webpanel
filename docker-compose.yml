@@ -1,0 +1,20 @@
+services:
+  webpanel:
+    build: .
+    container_name: webpanel
+    restart: unless-stopped
+    ports:
+      - "8787:8787"
+    environment:
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD}
+    volumes:
+      - webpanel-data:/app/backend/data
+      # Manage the host's Docker daemon
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Read-only access to host /proc for accurate system stats (optional)
+      # - /proc:/host/proc:ro
+
+volumes:
+  webpanel-data:

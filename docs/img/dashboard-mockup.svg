@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="Dashboard mockup">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a0a"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f38020"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="fillOrange" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f38020" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#f38020" stop-opacity="0"/>
+    </linearGradient>
+    <style>
+      .h { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: -0.02em; }
+      .t { font-family: 'Inter', system-ui, sans-serif; }
+      .m { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+      .l { font-family: 'Inter', system-ui, sans-serif; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+    </style>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="240" height="700" fill="#0a0a0a" stroke="#27272a"/>
+  <g transform="translate(20,28)">
+    <rect width="28" height="28" rx="8" fill="url(#orange)"/>
+    <text class="h" x="40" y="20" font-size="14" fill="#ededed">WebPanel</text>
+  </g>
+  <g transform="translate(12,80)" class="t" font-size="13">
+    <rect x="0"  y="0"   width="216" height="34" rx="6" fill="#18181b" stroke="#27272a"/>
+    <text x="36" y="22" fill="#ededed">▣ Дашборд</text>
+    <text x="36" y="60" fill="#a1a1aa">⚙ Серверы</text>
+    <text x="36" y="98" fill="#a1a1aa">▸ Терминал</text>
+    <text x="36" y="136" fill="#a1a1aa">▭ VNC</text>
+    <text x="36" y="174" fill="#a1a1aa">◉ Сервисы</text>
+    <text x="36" y="212" fill="#a1a1aa">≡ Процессы</text>
+    <text x="36" y="250" fill="#a1a1aa">◆ Docker</text>
+  </g>
+
+  <!-- Topbar -->
+  <line x1="240" y1="64" x2="1200" y2="64" stroke="#27272a"/>
+  <text class="h" x="272" y="42" font-size="18" fill="#ededed">Дашборд</text>
+  <g transform="translate(1080,28)">
+    <rect width="90" height="28" rx="6" fill="#18181b" stroke="#27272a"/>
+    <text class="m" x="14" y="19" font-size="11" fill="#a1a1aa">Ctrl K</text>
+    <circle cx="100" cy="14" r="4" fill="#10b981"/>
+    <text class="t" x="110" y="19" font-size="12" fill="#a1a1aa">live</text>
+  </g>
+
+  <!-- 4 stat cards -->
+  <g transform="translate(272,96)">
+    <g>
+      <rect x="0" y="0" width="210" height="150" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+      <text class="l" x="16" y="28" fill="#71717a">CPU</text>
+      <text class="h" x="16" y="74" font-size="36" fill="#ededed">12.4</text>
+      <text class="t" x="84" y="74" font-size="14" fill="#71717a">%</text>
+      <path d="M16,128 L40,116 L64,118 L88,104 L112,96 L136,108 L160,84 L184,72 L194,80 L194,140 L16,140 Z" fill="url(#fillOrange)"/>
+      <path d="M16,128 L40,116 L64,118 L88,104 L112,96 L136,108 L160,84 L184,72 L194,80" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(228,0)">
+      <rect width="210" height="150" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+      <text class="l" x="16" y="28" fill="#71717a">RAM</text>
+      <text class="h" x="16" y="74" font-size="36" fill="#ededed">42.1</text>
+      <text class="t" x="100" y="74" font-size="14" fill="#71717a">%</text>
+      <path d="M16,118 L40,114 L64,112 L88,110 L112,106 L136,100 L160,98 L184,94 L194,92 L194,140 L16,140 Z" fill="url(#fillOrange)"/>
+      <path d="M16,118 L40,114 L64,112 L88,110 L112,106 L136,100 L160,98 L184,94 L194,92" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(456,0)">
+      <rect width="210" height="150" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+      <text class="l" x="16" y="28" fill="#71717a">DISK /</text>
+      <text class="h" x="16" y="74" font-size="36" fill="#ededed">31.0</text>
+      <text class="t" x="100" y="74" font-size="14" fill="#71717a">%</text>
+      <path d="M16,124 L194,122 L194,140 L16,140 Z" fill="url(#fillOrange)"/>
+      <path d="M16,124 L194,122" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+    </g>
+    <g transform="translate(684,0)">
+      <rect width="210" height="150" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+      <text class="l" x="16" y="28" fill="#71717a">NET ↓ / ↑</text>
+      <text class="h" x="16" y="74" font-size="20" fill="#ededed">1.2 / 0.3 MB/s</text>
+      <path d="M16,120 L40,116 L64,90 L88,110 L112,100 L136,80 L160,108 L184,72 L194,84 L194,140 L16,140 Z" fill="url(#fillOrange)"/>
+      <path d="M16,120 L40,116 L64,90 L88,110 L112,100 L136,80 L160,108 L184,72 L194,84" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- system info -->
+  <g transform="translate(272,272)">
+    <rect width="588" height="200" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+    <text class="h" x="20" y="32" font-size="14" fill="#ededed">Система</text>
+    <g class="t" font-size="13" transform="translate(20,60)">
+      <text x="0"   y="0"  fill="#71717a">Hostname</text><text x="200" y="0" fill="#ededed">nodehost.ru</text>
+      <text x="0"   y="26" fill="#71717a">OS</text><text x="200" y="26" fill="#ededed">Ubuntu 22.04 LTS</text>
+      <text x="0"   y="52" fill="#71717a">Kernel</text><text x="200" y="52" fill="#ededed">5.15.0-75-generic</text>
+      <text x="0"   y="78" fill="#71717a">CPU</text><text x="200" y="78" fill="#ededed">AMD Ryzen 9 5950X · 16c</text>
+      <text x="0"   y="104" fill="#71717a">Memory</text><text x="200" y="104" fill="#ededed">2.0 GB</text>
+    </g>
+  </g>
+  <!-- actions -->
+  <g transform="translate(880,272)">
+    <rect width="294" height="200" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+    <text class="h" x="20" y="32" font-size="14" fill="#ededed">Действия</text>
+    <g transform="translate(20,52)">
+      <rect width="120" height="36" rx="6" fill="#18181b" stroke="#27272a"/>
+      <text class="t" x="14" y="23" font-size="13" fill="#ededed">Перезагрузить</text>
+      <rect x="132" width="100" height="36" rx="6" fill="none" stroke="#ef444466"/>
+      <text class="t" x="146" y="23" font-size="13" fill="#ef4444">Выключить</text>
+    </g>
+  </g>
+
+  <!-- processes -->
+  <g transform="translate(272,492)">
+    <rect width="902" height="190" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+    <text class="h" x="20" y="32" font-size="14" fill="#ededed">Топ процессов по CPU</text>
+    <g class="m" font-size="12" transform="translate(20,58)">
+      <text x="0"   y="0" fill="#71717a">PID</text>
+      <text x="80"  y="0" fill="#71717a">NAME</text>
+      <text x="260" y="0" fill="#71717a">USER</text>
+      <text x="380" y="0" fill="#71717a">CPU</text>
+      <text x="460" y="0" fill="#71717a">MEM</text>
+      <g transform="translate(0,26)">
+        <text x="0"   y="0" fill="#ededed">2851</text>
+        <text x="80"  y="0" fill="#ededed">node</text>
+        <text x="260" y="0" fill="#a1a1aa">root</text>
+        <text x="380" y="0" fill="#ededed">3.4</text>
+        <text x="460" y="0" fill="#ededed">2.1</text>
+      </g>
+      <g transform="translate(0,52)">
+        <text x="0"   y="0" fill="#ededed">1023</text>
+        <text x="80"  y="0" fill="#ededed">postgres</text>
+        <text x="260" y="0" fill="#a1a1aa">postgres</text>
+        <text x="380" y="0" fill="#ededed">2.1</text>
+        <text x="460" y="0" fill="#ededed">5.3</text>
+      </g>
+      <g transform="translate(0,78)">
+        <text x="0"   y="0" fill="#ededed">3441</text>
+        <text x="80"  y="0" fill="#ededed">nginx</text>
+        <text x="260" y="0" fill="#a1a1aa">www-data</text>
+        <text x="380" y="0" fill="#ededed">0.8</text>
+        <text x="460" y="0" fill="#ededed">0.4</text>
+      </g>
+      <g transform="translate(0,104)">
+        <text x="0"   y="0" fill="#ededed">5512</text>
+        <text x="80"  y="0" fill="#ededed">redis-server</text>
+        <text x="260" y="0" fill="#a1a1aa">redis</text>
+        <text x="380" y="0" fill="#ededed">0.3</text>
+        <text x="460" y="0" fill="#ededed">1.1</text>
+      </g>
+    </g>
+  </g>
+</svg>

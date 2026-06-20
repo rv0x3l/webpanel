@@ -1,0 +1,10 @@
+**/node_modules
+**/data
+**/*.db*
+**/.env
+.git
+.gitignore
+.onlysq
+docs
+*.md
+LICENSE

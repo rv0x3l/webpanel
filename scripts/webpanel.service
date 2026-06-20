@@ -1,0 +1,22 @@
+[Unit]
+Description=WebPanel — server control panel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/webpanel/backend
+EnvironmentFile=/root/webpanel/backend/.env
+ExecStart=/usr/bin/node /root/webpanel/backend/server.js
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=webpanel
+
+# Run as root so /reboot/poweroff and full system info are accessible.
+# To run as non-root, see README — you'll lose reboot/process kill capabilities.
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,25 @@
+{
+  "name": "webpanel-backend",
+  "version": "1.0.0",
+  "description": "Server management web panel backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@novnc/novnc": "^1.5.0",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.3.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "ssh2": "^1.16.0",
+    "systeminformation": "^5.23.5",
+    "ws": "^8.18.0"
+  }
+}
