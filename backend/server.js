@@ -14,7 +14,9 @@ import { getLive } from './src/stats.js';
 import { createSshShell } from './src/sshClient.js';
 import { bridgeWsToVnc } from './src/vncProxy.js';
 import { RemoteStats } from './src/remoteStats.js';
-import { loadPlugins, pluginsAccessibleTo } from './src/pluginLoader.js';
+import { loadPlugins, pluginsAccessibleTo, listAllPlugins, setPluginEnabled } from './src/pluginLoader.js';
+import { requireRole } from './src/auth.js';
+import { audit } from './src/audit.js';
 import routes from './src/routes.js';
 import { spawn } from 'node:child_process';
 
@@ -45,6 +47,20 @@ const plugins = await loadPlugins({ app, wsHandlers, pluginsDir: PLUGINS_DIR });
 
 app.get('/api/plugins', authMiddleware, (req, res) => {
   res.json(pluginsAccessibleTo(plugins, req.user.role));
+});
+
+app.get('/api/plugins/admin', authMiddleware, requireRole('admin'), (req, res) => {
+  res.json(listAllPlugins(plugins));
+});
+
+app.post('/api/plugins/:name/toggle', authMiddleware, requireRole('admin'), (req, res) => {
+  const name = req.params.name;
+  const found = plugins.find(p => p.name === name);
+  if (!found) return res.status(404).json({ error: 'plugin not found' });
+  const enabled = req.body?.enabled !== false; // default true
+  setPluginEnabled(name, enabled);
+  audit(req.user.id, 'plugin.' + (enabled ? 'enable' : 'disable'), { name });
+  res.json({ ok: true, name, enabled });
 });
 
 // Static frontend

@@ -30,9 +30,24 @@ function makeSettingsApi(pluginName) {
       for (const r of rows) {
         try { out[r.key] = JSON.parse(r.value); } catch { out[r.key] = r.value; }
       }
+      // _enabled is reserved meta — don't expose to plugin
+      delete out._enabled;
       return out;
     },
   };
+}
+
+export function isPluginEnabled(name) {
+  const row = getDb().prepare('SELECT value FROM plugin_settings WHERE plugin = ? AND key = ?').get(name, '_enabled');
+  if (!row) return true;
+  return row.value === 'true' || row.value === '"true"' || row.value === '1';
+}
+
+export function setPluginEnabled(name, enabled) {
+  getDb().prepare(`
+    INSERT INTO plugin_settings (plugin, key, value) VALUES (?, '_enabled', ?)
+    ON CONFLICT(plugin, key) DO UPDATE SET value = excluded.value
+  `).run(name, enabled ? 'true' : 'false');
 }
 
 export async function loadPlugins({ app, wsHandlers, pluginsDir }) {
@@ -54,6 +69,10 @@ export async function loadPlugins({ app, wsHandlers, pluginsDir }) {
     const router = express.Router();
     router.use(authMiddleware);
     router.use(requireRole(minRole));
+    router.use((req, res, next) => {
+      if (!isPluginEnabled(manifest.name)) return res.status(503).json({ error: 'plugin disabled' });
+      next();
+    });
 
     const ctx = {
       name: manifest.name,
@@ -108,5 +127,11 @@ export async function loadPlugins({ app, wsHandlers, pluginsDir }) {
 
 export function pluginsAccessibleTo(plugins, role) {
   const rank = ROLE_RANK[role] || 0;
-  return plugins.filter(p => rank >= (ROLE_RANK[p.minRole] || 0));
+  return plugins
+    .filter(p => isPluginEnabled(p.name))
+    .filter(p => rank >= (ROLE_RANK[p.minRole] || 0));
+}
+
+export function listAllPlugins(plugins) {
+  return plugins.map(p => ({ ...p, enabled: isPluginEnabled(p.name) }));
 }

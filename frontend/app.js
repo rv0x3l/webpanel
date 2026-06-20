@@ -111,19 +111,31 @@ async function loadPlugins() {
     state.plugins = await api('/plugins');
   } catch { state.plugins = []; }
   const nav = $('#plugins-nav');
-  nav.innerHTML = state.plugins.length
-    ? '<div class="muted small" style="padding:0 10px 6px;text-transform:uppercase;letter-spacing:.05em;font-size:10px">Плагины</div>' +
-      state.plugins.map(p => `<a href="#/p/${escapeHtml(p.name)}" data-route="p:${escapeHtml(p.name)}"><span class="icon">${escapeHtml(p.icon)}</span>${escapeHtml(p.label)}</a>`).join('')
-    : '';
+  if (!state.plugins.length) { nav.hidden = true; nav.innerHTML = ''; return; }
+  nav.hidden = false;
+  nav.innerHTML =
+    '<div class="nav-section-label">Плагины</div>' +
+    '<div class="nav-list">' +
+      state.plugins.map(p =>
+        `<a href="#/p/${escapeHtml(p.name)}" data-route="p:${escapeHtml(p.name)}">
+           <span class="icon">${escapeHtml(p.icon)}</span>${escapeHtml(p.label)}
+         </a>`
+      ).join('') +
+    '</div>';
 }
 
 function buildAdminNav() {
   const nav = $('#admin-nav');
   const isAdmin = state.user?.role === 'admin';
-  if (!isAdmin) { nav.innerHTML = ''; return; }
-  nav.innerHTML = '<div class="muted small" style="padding:0 10px 6px;text-transform:uppercase;letter-spacing:.05em;font-size:10px">Админ</div>' +
-    '<a href="#/users" data-route="users"><span class="icon">👥</span>Пользователи</a>' +
-    '<a href="#/audit" data-route="audit"><span class="icon">📜</span>Журнал</a>';
+  if (!isAdmin) { nav.hidden = true; nav.innerHTML = ''; return; }
+  nav.hidden = false;
+  nav.innerHTML =
+    '<div class="nav-section-label">Админ</div>' +
+    '<div class="nav-list">' +
+      '<a href="#/users"   data-route="users"><span class="icon">👥</span>Пользователи</a>' +
+      '<a href="#/plugins" data-route="plugins"><span class="icon">🔌</span>Плагины</a>' +
+      '<a href="#/audit"   data-route="audit"><span class="icon">📜</span>Журнал</a>' +
+    '</div>';
 }
 
 window.addEventListener('hashchange', () => navigate(location.hash));
@@ -152,9 +164,12 @@ async function loadServers() {
 // ---------- Router ----------
 function navigate(hash) {
   const route = (hash || '#/dashboard').replace('#/', '');
-  // mark active in core nav
-  $$('.sidebar nav a, #admin-nav a, #plugins-nav a').forEach(a => {
-    a.classList.toggle('active', a.dataset.route === route || a.dataset.route === 'p:' + route.replace('p/', ''));
+  // mark active in core + plugins + admin nav
+  $$('.sidebar a[data-route]').forEach(a => {
+    const isPlugin = route.startsWith('p/');
+    a.classList.toggle('active',
+      a.dataset.route === route ||
+      (isPlugin && a.dataset.route === 'p:' + route.slice(2)));
   });
   const view = $('#view');
   view.innerHTML = '';
@@ -180,6 +195,7 @@ function navigate(hash) {
     profile: 'Профиль',
     users: 'Пользователи',
     audit: 'Журнал действий',
+    plugins: 'Плагины',
   }[route] || route;
 
   ({
@@ -193,7 +209,60 @@ function navigate(hash) {
     profile: initProfile,
     users: initUsers,
     audit: initAudit,
+    plugins: initPluginsAdmin,
   })[route]?.();
+}
+
+async function initPluginsAdmin() {
+  const grid = $('#plugins-grid');
+  grid.innerHTML = '<div class="muted">Загрузка…</div>';
+  const all = await api('/plugins/admin');
+  grid.innerHTML = all.map(p => `
+    <div class="plugin-card ${p.enabled ? '' : 'off'}" data-name="${escapeHtml(p.name)}">
+      <div class="plugin-card-head">
+        <div>
+          <div class="plugin-card-title"><span class="icon">${escapeHtml(p.icon)}</span>${escapeHtml(p.label)}</div>
+          <div class="plugin-card-meta">
+            <span class="badge tag">v${escapeHtml(p.version)}</span>
+            <span class="badge tag">role: ${escapeHtml(p.minRole)}</span>
+            <span class="badge ${p.enabled ? 'on' : 'off'}">${p.enabled ? 'enabled' : 'disabled'}</span>
+          </div>
+        </div>
+        <label class="switch" title="Включить/выключить">
+          <input type="checkbox" data-toggle="${escapeHtml(p.name)}" ${p.enabled ? 'checked' : ''}>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="plugin-card-desc">${escapeHtml(p.description || '')}</div>
+    </div>`).join('') || '<div class="muted">Плагинов нет</div>';
+
+  grid.onclick = () => {}; // ignore
+  $$('#plugins-grid [data-toggle]').forEach(input => {
+    input.onchange = async (e) => {
+      const name = input.dataset.toggle;
+      const enabled = e.target.checked;
+      try {
+        await api(`/plugins/${encodeURIComponent(name)}/toggle`, {
+          method: 'POST', body: JSON.stringify({ enabled }),
+        });
+        toast(enabled ? `✅ ${name} включён` : `⏸ ${name} выключен`);
+        // Update sidebar nav
+        await loadPlugins();
+        // Update card visual state
+        const card = grid.querySelector(`[data-name="${name}"]`);
+        card?.classList.toggle('off', !enabled);
+        card?.querySelector('.badge.on, .badge.off')?.replaceWith(
+          Object.assign(document.createElement('span'), {
+            className: 'badge ' + (enabled ? 'on' : 'off'),
+            textContent: enabled ? 'enabled' : 'disabled',
+          })
+        );
+      } catch (err) {
+        toast('Ошибка: ' + err.message);
+        e.target.checked = !enabled; // revert
+      }
+    };
+  });
 }
 
 // ---------- Plugin view loader ----------

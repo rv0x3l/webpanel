@@ -52,8 +52,8 @@
       <a href="#/processes" data-route="processes"><span class="icon">≡</span>Процессы</a>
       <a href="#/docker" data-route="docker"><span class="icon">◆</span>Docker</a>
     </nav>
-    <div id="plugins-nav" style="margin-top:10px;border-top:1px solid var(--border);padding-top:10px"></div>
-    <div id="admin-nav" style="margin-top:10px"></div>
+    <div id="plugins-nav" class="nav-section" hidden></div>
+    <div id="admin-nav" class="nav-section" hidden></div>
     <div class="sidebar-footer">
       <div class="server-pick">
         <label class="muted">Активный сервер</label>
@@ -402,6 +402,14 @@
 </template>
 
 <template id="tpl-plugin"><section class="card"><div class="muted">Загрузка плагина…</div></section></template>
+
+<template id="tpl-plugins">
+  <section class="card">
+    <h3>🔌 Плагины</h3>
+    <p class="muted small">Отключённые плагины пропадают из сайдбара, а их эндпоинты возвращают 503.</p>
+    <div id="plugins-grid" class="plugins-grid"></div>
+  </section>
+</template>
 
 <template id="tpl-docker">
   <section class="card" id="docker-info">
