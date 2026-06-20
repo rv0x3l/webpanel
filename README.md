@@ -33,6 +33,7 @@
 | ⚡ **Клавиатура** | `Ctrl+K` — палитра команд, `g+d/s/t/v/e/p/k` — навигация, `?` — помощь, `/` — фильтр. |
 | 🔐 **Auth** | JWT в HttpOnly cookie, bcrypt, **2FA (TOTP)**, **multi-user с ролями** (admin/operator/viewer), **API-токены** для внешнего доступа. |
 | 🔌 **Plugin-система** | Встроенные плагины: Telegram-алерты, файловый менеджер, API-токены, UFW firewall, cron-задачи. Своё пиши по [гайду](docs/PLUGINS.md). |
+| 🔗 **REST API** | Полностью документированный HTTP/WebSocket API с авторизацией по токену для CI/мониторинга/ботов. См. [docs/API.md](docs/API.md). |
 
 ## 🖼️ Скриншоты
 
