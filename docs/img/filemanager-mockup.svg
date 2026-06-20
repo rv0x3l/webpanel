@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="File manager mockup">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a0a"/><stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <style>
+      .h { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: -0.02em; }
+      .t { font-family: 'Inter', system-ui, sans-serif; font-size: 13px; }
+      .m { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; }
+    </style>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+
+  <!-- Sidebar (compact) -->
+  <rect x="0" y="0" width="60" height="700" fill="#0a0a0a" stroke="#27272a"/>
+  <g transform="translate(16,28)">
+    <rect width="28" height="28" rx="8" fill="#f38020"/>
+  </g>
+  <g class="t" font-size="16" transform="translate(22,90)">
+    <text y="0" fill="#71717a">▣</text>
+    <text y="36" fill="#71717a">⚙</text>
+    <text y="72" fill="#71717a">▸</text>
+    <text y="108" fill="#71717a">▭</text>
+    <text y="144" fill="#71717a">◉</text>
+    <text y="180" fill="#71717a">≡</text>
+    <text y="216" fill="#71717a">◆</text>
+  </g>
+  <line x1="10" y1="316" x2="50" y2="316" stroke="#27272a"/>
+  <g class="t" font-size="16" transform="translate(22,340)">
+    <text y="0" fill="#71717a">✈</text>
+    <text y="36" fill="#f38020">📁</text>
+    <text y="72" fill="#71717a">🔑</text>
+    <text y="108" fill="#71717a">🛡</text>
+    <text y="144" fill="#71717a">⏰</text>
+  </g>
+
+  <!-- Topbar -->
+  <line x1="60" y1="64" x2="1200" y2="64" stroke="#27272a"/>
+  <text class="h" x="92" y="42" font-size="18" fill="#ededed">📁 Файлы</text>
+
+  <!-- Main card -->
+  <g transform="translate(92,96)">
+    <rect width="1080" height="580" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+
+    <!-- Card head with path / actions -->
+    <g transform="translate(0,0)">
+      <line x1="0" y1="56" x2="1080" y2="56" stroke="#27272a"/>
+      <text class="h" x="20" y="32" font-size="14" fill="#ededed">📁 Файлы — <tspan fill="#a1a1aa">/etc/nginx/sites-available</tspan></text>
+      <g transform="translate(680,16)">
+        <rect width="180" height="28" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="m" x="12" y="19" fill="#71717a">/etc/nginx/sites-available</text>
+        <rect x="190" width="28" height="28" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="200" y="20" fill="#a1a1aa">↑</text>
+        <rect x="226" width="86" height="28" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="240" y="20" font-size="12" fill="#a1a1aa">+ Папка</text>
+        <rect x="320" width="100" height="28" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="334" y="20" font-size="12" fill="#a1a1aa">↑ Загрузить</text>
+      </g>
+    </g>
+
+    <!-- File list -->
+    <g transform="translate(0,72)">
+      <rect width="380" height="500" fill="#0a0a0a"/>
+      <line x1="380" y1="0" x2="380" y2="500" stroke="#27272a"/>
+      <g class="t" font-size="13" transform="translate(14,28)">
+        <g transform="translate(0,0)">
+          <text x="0" y="0" fill="#a1a1aa">📁</text>
+          <text x="28" y="0" fill="#ededed">..</text>
+        </g>
+        <g transform="translate(0,32)">
+          <text x="0" y="0" fill="#a1a1aa">📄</text>
+          <text x="28" y="0" fill="#ededed">default</text>
+          <text x="320" y="0" fill="#71717a" text-anchor="end">1.2 KB</text>
+        </g>
+        <g transform="translate(0,64)">
+          <rect x="-14" y="-18" width="356" height="32" rx="6" fill="#18181b"/>
+          <text x="0" y="0" fill="#f38020">📄</text>
+          <text x="28" y="0" fill="#ededed">myapp.conf</text>
+          <text x="320" y="0" fill="#71717a" text-anchor="end">2.4 KB</text>
+        </g>
+        <g transform="translate(0,96)">
+          <text x="0" y="0" fill="#a1a1aa">📄</text>
+          <text x="28" y="0" fill="#ededed">api.example.com</text>
+          <text x="320" y="0" fill="#71717a" text-anchor="end">3.1 KB</text>
+        </g>
+        <g transform="translate(0,128)">
+          <text x="0" y="0" fill="#a1a1aa">📄</text>
+          <text x="28" y="0" fill="#ededed">www.example.com</text>
+          <text x="320" y="0" fill="#71717a" text-anchor="end">2.8 KB</text>
+        </g>
+        <g transform="translate(0,160)">
+          <text x="0" y="0" fill="#a1a1aa">🔗</text>
+          <text x="28" y="0" fill="#ededed">enabled-link → ../</text>
+        </g>
+        <g transform="translate(0,192)">
+          <text x="0" y="0" fill="#a1a1aa">📄</text>
+          <text x="28" y="0" fill="#ededed">webpanel.conf</text>
+          <text x="320" y="0" fill="#71717a" text-anchor="end">980 B</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- Editor pane -->
+    <g transform="translate(396,72)">
+      <text class="h" x="14" y="22" font-size="14" fill="#ededed">/etc/nginx/sites-available/myapp.conf</text>
+      <g transform="translate(450,2)">
+        <rect width="90" height="28" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="12" y="19" font-size="12" fill="#a1a1aa">↓ Скачать</text>
+        <rect x="100" width="120" height="28" rx="6" fill="#fff"/>
+        <text class="t" x="116" y="19" font-size="12" fill="#000" font-weight="600">💾 Сохранить</text>
+      </g>
+      <rect x="14" y="40" width="650" height="420" rx="6" fill="#000" stroke="#27272a"/>
+      <g class="m" transform="translate(28,68)" fill="#ededed" font-size="12">
+        <text y="0"  fill="#71717a"> 1</text><text x="30" y="0"  fill="#3b82f6">server</text><text x="76" y="0">  {</text>
+        <text y="20" fill="#71717a"> 2</text><text x="30" y="20" fill="#a1a1aa">    listen 80;</text>
+        <text y="40" fill="#71717a"> 3</text><text x="30" y="40" fill="#a1a1aa">    server_name myapp.example.com;</text>
+        <text y="60" fill="#71717a"> 4</text>
+        <text y="80" fill="#71717a"> 5</text><text x="30" y="80" fill="#3b82f6">    location</text><text x="115" y="80" fill="#a1a1aa"> / {</text>
+        <text y="100" fill="#71717a"> 6</text><text x="30" y="100" fill="#a1a1aa">        proxy_pass http://127.0.0.1:3000;</text>
+        <text y="120" fill="#71717a"> 7</text><text x="30" y="120" fill="#a1a1aa">        proxy_set_header Host $host;</text>
+        <text y="140" fill="#71717a"> 8</text><text x="30" y="140" fill="#a1a1aa">        proxy_set_header X-Real-IP $remote_addr;</text>
+        <text y="160" fill="#71717a"> 9</text><text x="30" y="160" fill="#a1a1aa">    }</text>
+        <text y="180" fill="#71717a">10</text><text x="30" y="180" fill="#a1a1aa">}</text>
+        <text y="200" fill="#71717a">11</text>
+        <text y="220" fill="#71717a">12</text><text x="30" y="220" fill="#3b82f6">server</text><text x="76" y="220" fill="#a1a1aa">  {</text>
+        <text y="240" fill="#71717a">13</text><text x="30" y="240" fill="#a1a1aa">    listen 443 ssl http2;</text>
+        <text y="260" fill="#71717a">14</text><text x="30" y="260" fill="#a1a1aa">    server_name myapp.example.com;</text>
+        <text y="280" fill="#71717a">15</text>
+        <text y="300" fill="#71717a">16</text><text x="30" y="300" fill="#a1a1aa">    ssl_certificate     /etc/letsencrypt/...</text>
+        <text y="320" fill="#71717a">17</text><text x="30" y="320" fill="#a1a1aa">    ssl_certificate_key /etc/letsencrypt/...</text>
+        <text y="340" fill="#71717a">18</text><text x="30" y="340" fill="#a1a1aa">}</text>
+        <text y="360" fill="#71717a">19</text><text x="30" y="360" fill="#f38020">█</text>
+      </g>
+      <text class="t" x="14" y="478" fill="#71717a" font-size="11">2.4 KB · изменён 2026-06-20 18:14</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="Plugins admin mockup">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a0a"/><stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f38020"/><stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <style>
+      .h { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: -0.02em; }
+      .t { font-family: 'Inter', system-ui, sans-serif; font-size: 13px; }
+      .m { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; }
+      .l { font-family: 'Inter', system-ui, sans-serif; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; }
+    </style>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="240" height="700" fill="#0a0a0a" stroke="#27272a"/>
+  <g transform="translate(20,28)">
+    <rect width="28" height="28" rx="8" fill="url(#orange)"/>
+    <text class="h" x="40" y="20" font-size="14" fill="#ededed">WebPanel</text>
+  </g>
+  <g transform="translate(12,80)" class="t" font-size="13">
+    <text x="36" y="22" fill="#a1a1aa">▣ Дашборд</text>
+    <text x="36" y="54" fill="#a1a1aa">⚙ Серверы</text>
+    <text x="36" y="86" fill="#a1a1aa">▸ Терминал</text>
+    <text x="36" y="118" fill="#a1a1aa">▭ VNC</text>
+    <text x="36" y="150" fill="#a1a1aa">◉ Сервисы</text>
+    <text x="36" y="182" fill="#a1a1aa">≡ Процессы</text>
+    <text x="36" y="214" fill="#a1a1aa">◆ Docker</text>
+  </g>
+  <line x1="20" y1="306" x2="220" y2="306" stroke="#27272a"/>
+  <text class="l" x="22" y="328" fill="#71717a">ПЛАГИНЫ</text>
+  <g transform="translate(12,344)" class="t" font-size="13">
+    <text x="36" y="0" fill="#a1a1aa">✈ Telegram alerts</text>
+    <text x="36" y="32" fill="#a1a1aa">📁 Файлы</text>
+    <text x="36" y="64" fill="#a1a1aa">🔑 API токены</text>
+    <text x="36" y="96" fill="#a1a1aa">🛡 Firewall (UFW)</text>
+    <text x="36" y="128" fill="#a1a1aa">⏰ Задачи (cron)</text>
+  </g>
+  <line x1="20" y1="492" x2="220" y2="492" stroke="#27272a"/>
+  <text class="l" x="22" y="514" fill="#71717a">АДМИН</text>
+  <g transform="translate(12,530)" class="t" font-size="13">
+    <text x="36" y="0" fill="#a1a1aa">👥 Пользователи</text>
+    <rect x="0" y="14" width="216" height="34" rx="6" fill="#18181b" stroke="#27272a"/>
+    <text x="36" y="36" fill="#ededed">🔌 Плагины</text>
+    <text x="36" y="74" fill="#a1a1aa">📜 Журнал</text>
+  </g>
+
+  <!-- Topbar -->
+  <line x1="240" y1="64" x2="1200" y2="64" stroke="#27272a"/>
+  <text class="h" x="272" y="42" font-size="18" fill="#ededed">Плагины</text>
+  <g transform="translate(1080,28)">
+    <rect width="90" height="28" rx="6" fill="#18181b" stroke="#27272a"/>
+    <text class="m" x="14" y="19" font-size="11" fill="#a1a1aa">Ctrl K</text>
+    <circle cx="100" cy="14" r="4" fill="#10b981"/>
+    <text class="t" x="110" y="19" fill="#a1a1aa">live</text>
+  </g>
+
+  <!-- Main card -->
+  <g transform="translate(272,96)">
+    <rect width="900" height="580" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+    <text class="h" x="20" y="38" font-size="14" fill="#ededed">🔌 Плагины</text>
+    <text class="t" x="20" y="60" fill="#a1a1aa" font-size="12">Отключённые плагины пропадают из сайдбара, а их эндпоинты возвращают 503.</text>
+
+    <!-- Plugin cards grid -->
+    <g transform="translate(20,84)">
+      <!-- Card 1: webhook-tg (on) -->
+      <g transform="translate(0,0)">
+        <rect width="280" height="140" rx="10" fill="#0a0a0a" stroke="#27272a"/>
+        <text class="h" x="14" y="28" font-size="14" fill="#ededed">✈ Telegram alerts</text>
+        <g transform="translate(14,38)">
+          <rect x="0"  y="0" width="30" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="6"  y="13" fill="#a1a1aa">v1.0</text>
+          <rect x="36" y="0" width="64" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="42" y="13" fill="#a1a1aa">role: admin</text>
+          <rect x="106" y="0" width="50" height="18" rx="9" fill="rgba(16,185,129,.15)"/><text class="m" x="116" y="13" fill="#10b981">enabled</text>
+        </g>
+        <text class="t" x="14" y="86" fill="#a1a1aa" font-size="12">Уведомления о событиях</text>
+        <text class="t" x="14" y="104" fill="#a1a1aa" font-size="12">сервера в Telegram-чат.</text>
+        <!-- Switch ON -->
+        <g transform="translate(232,16)">
+          <rect width="36" height="20" rx="10" fill="#f38020"/>
+          <circle cx="26" cy="10" r="7" fill="#fff"/>
+        </g>
+      </g>
+      <!-- Card 2: filemanager (on) -->
+      <g transform="translate(290,0)">
+        <rect width="280" height="140" rx="10" fill="#0a0a0a" stroke="#27272a"/>
+        <text class="h" x="14" y="28" font-size="14" fill="#ededed">📁 Файлы</text>
+        <g transform="translate(14,38)">
+          <rect x="0"  y="0" width="30" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="6"  y="13" fill="#a1a1aa">v1.0</text>
+          <rect x="36" y="0" width="64" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="42" y="13" fill="#a1a1aa">role: admin</text>
+          <rect x="106" y="0" width="50" height="18" rx="9" fill="rgba(16,185,129,.15)"/><text class="m" x="116" y="13" fill="#10b981">enabled</text>
+        </g>
+        <text class="t" x="14" y="86" fill="#a1a1aa" font-size="12">Просмотр, редактирование,</text>
+        <text class="t" x="14" y="104" fill="#a1a1aa" font-size="12">загрузка и скачивание файлов.</text>
+        <g transform="translate(232,16)">
+          <rect width="36" height="20" rx="10" fill="#f38020"/>
+          <circle cx="26" cy="10" r="7" fill="#fff"/>
+        </g>
+      </g>
+      <!-- Card 3: api-tokens (on) -->
+      <g transform="translate(580,0)">
+        <rect width="280" height="140" rx="10" fill="#0a0a0a" stroke="#27272a"/>
+        <text class="h" x="14" y="28" font-size="14" fill="#ededed">🔑 API токены</text>
+        <g transform="translate(14,38)">
+          <rect x="0"  y="0" width="30" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="6"  y="13" fill="#a1a1aa">v1.0</text>
+          <rect x="36" y="0" width="64" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="42" y="13" fill="#a1a1aa">role: admin</text>
+          <rect x="106" y="0" width="50" height="18" rx="9" fill="rgba(16,185,129,.15)"/><text class="m" x="116" y="13" fill="#10b981">enabled</text>
+        </g>
+        <text class="t" x="14" y="86" fill="#a1a1aa" font-size="12">Создание и управление</text>
+        <text class="t" x="14" y="104" fill="#a1a1aa" font-size="12">API-токенами с read/write scope.</text>
+        <g transform="translate(232,16)">
+          <rect width="36" height="20" rx="10" fill="#f38020"/>
+          <circle cx="26" cy="10" r="7" fill="#fff"/>
+        </g>
+      </g>
+      <!-- Card 4: UFW (off) -->
+      <g transform="translate(0,160)" opacity="0.55">
+        <rect width="280" height="140" rx="10" fill="#0a0a0a" stroke="#27272a"/>
+        <text class="h" x="14" y="28" font-size="14" fill="#ededed">🛡 Firewall (UFW)</text>
+        <g transform="translate(14,38)">
+          <rect x="0"  y="0" width="30" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="6"  y="13" fill="#a1a1aa">v1.0</text>
+          <rect x="36" y="0" width="64" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="42" y="13" fill="#a1a1aa">role: admin</text>
+          <rect x="106" y="0" width="56" height="18" rx="9" fill="rgba(239,68,68,.15)"/><text class="m" x="115" y="13" fill="#ef4444">disabled</text>
+        </g>
+        <text class="t" x="14" y="86" fill="#a1a1aa" font-size="12">Управление правилами UFW:</text>
+        <text class="t" x="14" y="104" fill="#a1a1aa" font-size="12">открыть/закрыть порты, статус.</text>
+        <g transform="translate(232,16)">
+          <rect width="36" height="20" rx="10" fill="#18181b" stroke="#27272a"/>
+          <circle cx="10" cy="10" r="7" fill="#71717a"/>
+        </g>
+      </g>
+      <!-- Card 5: tasks (on) -->
+      <g transform="translate(290,160)">
+        <rect width="280" height="140" rx="10" fill="#0a0a0a" stroke="#27272a"/>
+        <text class="h" x="14" y="28" font-size="14" fill="#ededed">⏰ Задачи (cron)</text>
+        <g transform="translate(14,38)">
+          <rect x="0"  y="0" width="30" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="6"  y="13" fill="#a1a1aa">v1.0</text>
+          <rect x="36" y="0" width="64" height="18" rx="9" fill="#18181b" stroke="#27272a"/><text class="m" x="42" y="13" fill="#a1a1aa">role: admin</text>
+          <rect x="106" y="0" width="50" height="18" rx="9" fill="rgba(16,185,129,.15)"/><text class="m" x="116" y="13" fill="#10b981">enabled</text>
+        </g>
+        <text class="t" x="14" y="86" fill="#a1a1aa" font-size="12">Планировщик задач</text>
+        <text class="t" x="14" y="104" fill="#a1a1aa" font-size="12">через /etc/cron.d/webpanel-*</text>
+        <g transform="translate(232,16)">
+          <rect width="36" height="20" rx="10" fill="#f38020"/>
+          <circle cx="26" cy="10" r="7" fill="#fff"/>
+        </g>
+      </g>
+      <!-- Card 6: Custom plugin (your own) -->
+      <g transform="translate(580,160)" opacity="0.85">
+        <rect width="280" height="140" rx="10" fill="#0a0a0a" stroke="#27272a" stroke-dasharray="4,4"/>
+        <text class="h" x="14" y="28" font-size="14" fill="#a1a1aa">+ Свой плагин</text>
+        <text class="t" x="14" y="56" fill="#71717a" font-size="12">Положи папку в</text>
+        <text class="m" x="14" y="76" fill="#f38020">backend/plugins/&lt;name&gt;/</text>
+        <text class="t" x="14" y="98" fill="#71717a" font-size="12">См. docs/PLUGINS.md</text>
+        <text class="t" x="14" y="120" fill="#71717a" font-size="12">для гайда по созданию.</text>
+      </g>
+    </g>
+  </g>
+</svg>

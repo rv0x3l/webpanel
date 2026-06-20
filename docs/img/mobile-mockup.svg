@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" role="img" aria-label="Mobile view mockup">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1a1a"/><stop offset="1" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f38020"/><stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="fillOrange" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f38020" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#f38020" stop-opacity="0"/>
+    </linearGradient>
+    <style>
+      .h { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: -0.02em; }
+      .t { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; }
+      .m { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; }
+      .k { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; }
+    </style>
+  </defs>
+  <rect width="800" height="900" fill="url(#bg)"/>
+
+  <!-- TWO PHONE FRAMES side by side -->
+  <!-- Left phone: Dashboard -->
+  <g transform="translate(60,40)">
+    <!-- phone frame -->
+    <rect width="280" height="820" rx="36" fill="#000" stroke="#27272a" stroke-width="2"/>
+    <rect x="6" y="6" width="268" height="808" rx="30" fill="#000"/>
+    <!-- notch -->
+    <rect x="100" y="14" width="80" height="20" rx="10" fill="#0a0a0a"/>
+
+    <!-- screen content -->
+    <g transform="translate(14,50)">
+      <!-- topbar -->
+      <g transform="translate(0,0)">
+        <rect width="36" height="36" rx="8" fill="#18181b" stroke="#27272a"/>
+        <text class="h" x="11" y="24" font-size="18" fill="#ededed">≡</text>
+        <text class="h" x="50" y="24" font-size="16" fill="#ededed">Дашборд</text>
+        <circle cx="232" cy="18" r="4" fill="#10b981"/>
+      </g>
+      <line x1="0" y1="52" x2="252" y2="52" stroke="#27272a"/>
+
+      <!-- 2x2 stat cards -->
+      <g transform="translate(0,68)">
+        <g>
+          <rect width="120" height="100" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+          <text class="t" x="12" y="22" font-size="9" fill="#71717a">CPU</text>
+          <text class="h" x="12" y="52" font-size="22" fill="#ededed">12.4%</text>
+          <path d="M12,86 L30,80 L48,82 L66,72 L84,66 L102,72 L108,68 L108,94 L12,94 Z" fill="url(#fillOrange)"/>
+          <path d="M12,86 L30,80 L48,82 L66,72 L84,66 L102,72 L108,68" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+        </g>
+        <g transform="translate(132,0)">
+          <rect width="120" height="100" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+          <text class="t" x="12" y="22" font-size="9" fill="#71717a">RAM</text>
+          <text class="h" x="12" y="52" font-size="22" fill="#ededed">42.1%</text>
+          <path d="M12,82 L30,78 L48,76 L66,72 L84,68 L102,64 L108,62 L108,94 L12,94 Z" fill="url(#fillOrange)"/>
+          <path d="M12,82 L30,78 L48,76 L66,72 L84,68 L102,64 L108,62" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+        </g>
+        <g transform="translate(0,112)">
+          <rect width="120" height="100" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+          <text class="t" x="12" y="22" font-size="9" fill="#71717a">DISK</text>
+          <text class="h" x="12" y="52" font-size="22" fill="#ededed">31.0%</text>
+          <path d="M12,86 L108,84 L108,94 L12,94 Z" fill="url(#fillOrange)"/>
+          <path d="M12,86 L108,84" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+        </g>
+        <g transform="translate(132,112)">
+          <rect width="120" height="100" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+          <text class="t" x="12" y="22" font-size="9" fill="#71717a">NET ↓/↑</text>
+          <text class="h" x="12" y="52" font-size="13" fill="#ededed">1.2 / 0.3 MB/s</text>
+          <path d="M12,82 L30,80 L48,68 L66,76 L84,72 L102,60 L108,72 L108,94 L12,94 Z" fill="url(#fillOrange)"/>
+          <path d="M12,82 L30,80 L48,68 L66,76 L84,72 L102,60 L108,72" fill="none" stroke="url(#orange)" stroke-width="1.5"/>
+        </g>
+      </g>
+
+      <!-- system card -->
+      <g transform="translate(0,238)">
+        <rect width="252" height="170" rx="10" fill="#0e0e0e" stroke="#27272a"/>
+        <text class="h" x="14" y="26" font-size="13" fill="#ededed">Система</text>
+        <g class="t" font-size="11" transform="translate(14,46)">
+          <text x="0"   y="0"  fill="#71717a">Hostname</text><text x="110" y="0"  fill="#ededed">nodehost.ru</text>
+          <text x="0"   y="22" fill="#71717a">OS</text><text x="110" y="22" fill="#ededed">Ubuntu 22.04</text>
+          <text x="0"   y="44" fill="#71717a">Kernel</text><text x="110" y="44" fill="#ededed">5.15.0-75</text>
+          <text x="0"   y="66" fill="#71717a">CPU</text><text x="110" y="66" fill="#ededed">Ryzen 9 5950X</text>
+          <text x="0"   y="88" fill="#71717a">Memory</text><text x="110" y="88" fill="#ededed">2.0 GB</text>
+          <text x="0"   y="110" fill="#71717a">Uptime</text><text x="110" y="110" fill="#10b981">5d 14h</text>
+        </g>
+      </g>
+
+      <!-- actions -->
+      <g transform="translate(0,422)">
+        <text class="h" x="0" y="14" font-size="11" fill="#71717a" letter-spacing="0.05em">ДЕЙСТВИЯ</text>
+        <rect x="0" y="22" width="120" height="38" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="20" y="46" fill="#ededed">↻ Перезагрузка</text>
+        <rect x="132" y="22" width="120" height="38" rx="6" fill="none" stroke="rgba(239,68,68,.3)"/>
+        <text class="t" x="158" y="46" fill="#ef4444">⏻ Выключить</text>
+      </g>
+    </g>
+
+    <!-- label -->
+    <text class="t" x="140" y="800" font-size="12" fill="#71717a" text-anchor="middle">Дашборд на телефоне</text>
+  </g>
+
+  <!-- Right phone: Terminal with on-screen keys -->
+  <g transform="translate(460,40)">
+    <rect width="280" height="820" rx="36" fill="#000" stroke="#27272a" stroke-width="2"/>
+    <rect x="6" y="6" width="268" height="808" rx="30" fill="#000"/>
+    <rect x="100" y="14" width="80" height="20" rx="10" fill="#0a0a0a"/>
+
+    <g transform="translate(14,50)">
+      <!-- topbar -->
+      <g transform="translate(0,0)">
+        <rect width="36" height="36" rx="8" fill="#18181b" stroke="#27272a"/>
+        <text class="h" x="11" y="24" font-size="18" fill="#ededed">≡</text>
+        <text class="h" x="50" y="24" font-size="16" fill="#ededed">Терминал</text>
+      </g>
+      <line x1="0" y1="52" x2="252" y2="52" stroke="#27272a"/>
+
+      <!-- Action bar -->
+      <g transform="translate(0,64)">
+        <rect width="60" height="26" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="11" y="18" font-size="11" fill="#a1a1aa">Paste</text>
+        <rect x="66" width="56" height="26" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="80" y="18" font-size="11" fill="#a1a1aa">Copy</text>
+        <rect x="128" width="54" height="26" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="142" y="18" font-size="11" fill="#a1a1aa">Clear</text>
+        <rect x="188" width="64" height="26" rx="6" fill="#18181b" stroke="#27272a"/>
+        <text class="t" x="200" y="18" font-size="11" fill="#a1a1aa">Reconn</text>
+      </g>
+
+      <!-- On-screen keyboard bar -->
+      <g transform="translate(0,100)">
+        <text class="t" x="0" y="0" font-size="9" fill="#71717a" letter-spacing="0.05em">КЛАВИАТУРА</text>
+      </g>
+      <g transform="translate(0,108)">
+        <!-- Row 1: sticky modifiers -->
+        <g transform="translate(0,0)">
+          <rect width="44" height="32" rx="8" fill="#f38020"/>
+          <text class="k" x="9" y="20" fill="#000">Ctrl</text>
+        </g>
+        <g transform="translate(50,0)">
+          <rect width="36" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="6" y="20" fill="#ededed">Alt</text>
+        </g>
+        <g transform="translate(92,0)">
+          <rect width="44" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="5" y="20" fill="#ededed">Shift</text>
+        </g>
+        <g transform="translate(142,0)">
+          <rect width="36" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="6" y="20" fill="#ededed">Esc</text>
+        </g>
+        <g transform="translate(184,0)">
+          <rect width="36" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="6" y="20" fill="#ededed">Tab</text>
+        </g>
+        <g transform="translate(226,0)">
+          <rect width="26" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="6" y="20" fill="#ededed">⌫</text>
+        </g>
+        <!-- Row 2: arrows + combos (scroll hint) -->
+        <g transform="translate(0,38)">
+          <rect width="36" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="12" y="20" fill="#ededed">↑</text>
+        </g>
+        <g transform="translate(42,38)">
+          <rect width="36" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="12" y="20" fill="#ededed">↓</text>
+        </g>
+        <g transform="translate(84,38)">
+          <rect width="36" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="12" y="20" fill="#ededed">←</text>
+        </g>
+        <g transform="translate(126,38)">
+          <rect width="36" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="12" y="20" fill="#ededed">→</text>
+        </g>
+        <g transform="translate(168,38)">
+          <rect width="40" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="10" y="20" fill="#ededed">^O</text>
+        </g>
+        <g transform="translate(214,38)">
+          <rect width="40" height="32" rx="8" fill="#18181b" stroke="#27272a"/>
+          <text class="k" x="10" y="20" fill="#ededed">^X</text>
+        </g>
+      </g>
+
+      <!-- Terminal area -->
+      <rect x="0" y="190" width="252" height="500" rx="6" fill="#000" stroke="#27272a"/>
+      <g class="m" transform="translate(10,212)" fill="#ededed" font-size="10">
+        <text y="0"><tspan fill="#f38020">root@host</tspan>:<tspan fill="#3b82f6">~</tspan>$ nano nginx.conf</text>
+        <text y="20" fill="#ededed">  GNU nano 6.2     nginx.conf</text>
+        <text y="40" fill="#a1a1aa">user www-data;</text>
+        <text y="60" fill="#a1a1aa">worker_processes auto;</text>
+        <text y="80" fill="#a1a1aa">events {</text>
+        <text y="100" fill="#a1a1aa">  worker_connections</text>
+        <text y="118" fill="#a1a1aa">    1024;</text>
+        <text y="138" fill="#a1a1aa">}</text>
+        <text y="158" fill="#a1a1aa">http {</text>
+        <text y="178" fill="#a1a1aa">  sendfile on;</text>
+        <text y="198" fill="#a1a1aa">  include mime.types;</text>
+        <text y="218" fill="#a1a1aa">}</text>
+        <text y="260" fill="#71717a">^G Help   ^O WriteOut</text>
+        <text y="278" fill="#71717a">^X Exit   ^W Where Is</text>
+        <text y="296" fill="#71717a">^K Cut    ^U Paste</text>
+        <text y="328" fill="#10b981">[ Wrote 24 lines ]</text>
+        <text y="350" fill="#f38020">_</text>
+      </g>
+    </g>
+
+    <text class="t" x="140" y="800" font-size="12" fill="#71717a" text-anchor="middle">Терминал + клавиатура</text>
+  </g>
+
+  <!-- Bottom caption -->
+  <text class="h" x="400" y="876" font-size="14" fill="#ededed" text-anchor="middle">📱 Mobile-first: всё работает с телефона, включая nano/vim</text>
+</svg>
