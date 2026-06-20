@@ -10,10 +10,22 @@ function saneFrom(s) {
   return /^[a-zA-Z0-9./:_-]{0,64}$/.test(String(s || '')) ? s : null;
 }
 
+async function checkInstalled(ctx) {
+  const r = await ctx.runCommand('command -v ufw');
+  return r.ok && r.stdout.trim().length > 0;
+}
+
 export default async function init(ctx) {
   ctx.router.get('/status', async (req, res) => {
+    if (!(await checkInstalled(ctx))) {
+      return res.json({
+        ok: false,
+        installed: false,
+        output: 'UFW не установлен на сервере.\n\nУстановить:\n  apt install -y ufw\n\n  # или для других дистрибутивов:\n  dnf install ufw      # Fedora/RHEL\n  pacman -S ufw        # Arch',
+      });
+    }
     const r = await ctx.runCommand('ufw status numbered verbose 2>&1');
-    res.json({ ok: r.ok, output: r.stdout || r.stderr });
+    res.json({ ok: r.ok, installed: true, output: r.stdout || r.stderr });
   });
 
   ctx.router.post('/enable', async (req, res) => {

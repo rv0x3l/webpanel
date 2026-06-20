@@ -3,6 +3,15 @@ export default async function init(WP) {
   async function reload() {
     const r = await WP.api.get('/status');
     view.querySelector('#ufw-status').textContent = r.output || '';
+    if (r.installed === false) {
+      // Hide forms when UFW not installed
+      view.querySelector('#ufw-add')?.setAttribute('hidden', '');
+      view.querySelectorAll('.card-head .btn').forEach(b => b.setAttribute('disabled', ''));
+      view.querySelector('#ufw-rule-actions').innerHTML = '';
+      return;
+    }
+    view.querySelector('#ufw-add')?.removeAttribute('hidden');
+    view.querySelectorAll('.card-head .btn').forEach(b => b.removeAttribute('disabled'));
     // Extract rule numbers from "[ 1] 22/tcp ..." lines
     const nums = [];
     for (const m of (r.output || '').matchAll(/^\[\s*(\d+)\]/gm)) nums.push(parseInt(m[1], 10));
