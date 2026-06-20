@@ -1,57 +1,79 @@
-<div align="center">
+# ⚡ 𝚆𝙴𝙱𝙿𝙰𝙽𝙴𝙻 — 𝚂𝚎𝚛𝚟𝚎𝚛 𝙲𝚘𝚗𝚝𝚛𝚘𝚕 𝙿𝚊𝚗𝚎𝚕 🛰️
 
-<img src="docs/img/banner.svg" alt="WebPanel" width="100%" />
+<a href="https://t.me/rv0x3l">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=F38020&height=200&section=header&text=WebPanel&fontSize=90&fontColor=ffffff&animation=fadeIn&fontAlignY=38" width="100%" />
+</a>
 
-# 🛰️ WebPanel
+<br/>
 
-**Современная панель управления сервером в стиле Vercel / Cloudflare**
-Тёмная, минималистичная, быстрая. Работает с телефона, планшета и десктопа.
+> **`System Status:`** *Modern, mobile-friendly server control panel in the style of Vercel & Cloudflare* 🚀
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-white.svg)](LICENSE)
-![Node 20+](https://img.shields.io/badge/node-20+-black?logo=node.js)
-![No build step](https://img.shields.io/badge/build-none-f38020)
-![Made with ❤️](https://img.shields.io/badge/made_with-❤️-ef4444)
-
-[🇷🇺 Русский](README.md) · [🇬🇧 English](README.en.md)
-
-</div>
+<p align="left">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-white?style=flat-square" /></a>
+  <img src="https://img.shields.io/badge/node-20+-339933?style=flat-square&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/build-none-F38020?style=flat-square" />
+  <img src="https://img.shields.io/badge/mobile-first-10b981?style=flat-square" />
+  <img src="https://img.shields.io/github/stars/rv0x3l/webpanel?style=flat-square&color=F38020" />
+</p>
 
 ---
 
-## ✨ Возможности
+### 🚧 Скриншоты
 
-| | |
-|---|---|
-| 📊 **Live дашборд** | CPU, RAM, диски, сеть в реальном времени по WebSocket. Sparkline-графики. |
-| 🖥️ **Несколько серверов** | Управляй удалёнными хостами по SSH (пароль или ключ). Локальный сервер из коробки. |
-| ⌨️ **Веб-терминал** | Полноценный xterm.js: локальный bash или SSH. С **экранной клавиатурой** (Ctrl/Esc/Tab/стрелки/^O/^X), чтобы реально работать с nano/vim на телефоне. |
-| 🖼️ **VNC viewer** | Встроенный noVNC. Бэкенд проксирует WebSocket ↔ TCP. |
-| ⚙️ **systemd** | Все юниты, фильтр по типу/состоянию, drawer со статусом, **journalctl-логами**, `systemctl show`, и кнопками start/stop/restart/reload/enable/disable. |
-| 🐳 **Docker** | Контейнеры (start/stop/restart/pause/kill/rm), live stats, **логи**, inspect, образы, pull, prune. |
-| 🧬 **Процессы** | Топ, фильтр, kill в один тап. |
-| 📱 **Mobile first** | Off-canvas сайдбар, тач-кнопки 38+px, экранная клавиатура для терминала. |
-| ⚡ **Клавиатура** | `Ctrl+K` — палитра команд, `g+d/s/t/v/e/p/k` — навигация, `?` — помощь, `/` — фильтр. |
-| 🔐 **Auth** | JWT в HttpOnly cookie, bcrypt. Логин и пароль через `.env`. |
+<p align="center">
+  <img src="docs/img/banner.svg" alt="WebPanel" width="100%" />
+</p>
+<p align="center">
+  <img src="docs/img/dashboard-mockup.svg" alt="Dashboard" width="90%" />
+  <br/><i>Дашборд: real-time графики CPU/RAM/Disk/Net</i>
+</p>
+<p align="center">
+  <img src="docs/img/terminal-mockup.svg" alt="Terminal" width="90%" />
+  <br/><i>Терминал с экранной клавиатурой — <code>^O</code> сохраняет в nano с одного тапа</i>
+</p>
 
-## 🖼️ Скриншоты
+---
 
-> Mockup-превью — реальные скриншоты добавлю после первого деплоя. Пулл-реквесты приветствуются ✌️
+### 🛠️ Стек
 
-<div align="center">
+#### **Backend**
+<code><img height="28" src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/WebSocket-010101?style=flat-square&logo=socket.io&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/ssh2-2E2E2E?style=flat-square&logo=openssh&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white" /></code>
 
-<img src="docs/img/dashboard-mockup.svg" alt="Дашборд" width="90%" />
+#### **Frontend**
+<code><img height="28" src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/Vanilla_JS-F7DF1E?style=flat-square&logo=javascript&logoColor=black" /></code>
+<code><img height="28" src="https://img.shields.io/badge/xterm.js-000000?style=flat-square&logo=gnometerminal&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/noVNC-2E2E2E?style=flat-square&logo=vncviewer&logoColor=white" /></code>
 
-_Дашборд: real-time графики CPU/RAM/Disk/Net, инфо о системе, топ процессов_
+#### **Платформа**
+<code><img height="28" src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" /></code>
+<code><img height="28" src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/systemd-30638E?style=flat-square&logo=systemd&logoColor=white" /></code>
+<code><img height="28" src="https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white" /></code>
 
-<br />
+---
 
-<img src="docs/img/terminal-mockup.svg" alt="Терминал" width="90%" />
+### 🚀 Возможности
 
-_Терминал с экранной клавиатурой — `^O` сохраняет в nano с одного тапа_
+* 📊 **Live дашборд** — CPU, RAM, диски, сеть в реальном времени по WebSocket, sparkline-графики
+* 🖥️ **Несколько серверов** — управление удалёнными хостами по SSH (пароль или ключ)
+* ⌨️ **Веб-терминал** — xterm.js с **экранной клавиатурой** (Ctrl/Esc/Tab/стрелки/`^O`/`^X`) — работа с nano/vim на телефоне
+* 🖼️ **VNC viewer** — встроенный noVNC, бэкенд проксирует WS↔TCP
+* ⚙️ **systemd** — все юниты, фильтр, drawer со статусом и journalctl-логами, start/stop/enable/disable
+* 🐳 **Docker** — контейнеры, stats, логи, inspect, образы, pull, prune
+* 🧬 **Процессы** — топ, фильтр, kill в один тап
+* 📱 **Mobile-first** — off-canvas сайдбар, touch-кнопки 38+px
+* ⚡ **Hotkeys** — `Ctrl+K` палитра, `g+d/s/t/v/e/p/k` навигация, `?` помощь, `/` фильтр
 
-</div>
+---
 
-## 🚀 Быстрый старт
+### 📦 Quick Start
 
 ```bash
 git clone https://github.com/rv0x3l/webpanel.git /opt/webpanel
@@ -59,36 +81,23 @@ cd /opt/webpanel
 ./scripts/install.sh
 ```
 
-Установщик:
-1. 🔑 Генерирует случайный JWT-секрет
-2. 📦 Ставит npm-зависимости
-3. ⚙️ Регистрирует systemd unit и запускает
-4. 🌐 Выводит URL
-
-Открывай `http://<IP>:8787`. Логин по умолчанию — `admin` / `admin`. **Сразу поменяй:**
+Открывай `http://<server>:8787` → логин `admin` / `admin` → смени пароль:
 
 ```bash
-./scripts/reset-password.sh "новый-надёжный-пароль"
+./scripts/reset-password.sh "your-strong-password"
 systemctl restart webpanel
 ```
 
-### 🐳 Через Docker
+#### 🐳 Через Docker
 
 ```bash
 git clone https://github.com/rv0x3l/webpanel.git && cd webpanel
 JWT_SECRET=$(openssl rand -hex 32) ADMIN_PASSWORD=secret docker compose up -d
 ```
 
-### 🧰 Ручная установка
+---
 
-```bash
-cd backend
-cp .env.example .env   # отредактируй ADMIN_PASSWORD и JWT_SECRET
-npm install
-node server.js
-```
-
-## 🧠 Архитектура
+### 🧠 Архитектура
 
 ```mermaid
 graph LR
@@ -104,59 +113,9 @@ graph LR
     S --> DB[("💾 SQLite<br/>better-sqlite3")]
 ```
 
-- **БД:** SQLite, файл `backend/data/panel.db`
-- **Auth:** JWT в HttpOnly cookie + `Bearer` для API
-- **Внешних сервисов на рантайме не нужно** — один Node-процесс
+---
 
-## ⚙️ Конфигурация
-
-`backend/.env`:
-
-| Переменная | По умолчанию | Описание |
-|---|---|---|
-| `PORT` | `8787` | HTTP порт |
-| `HOST` | `0.0.0.0` | Bind адрес |
-| `JWT_SECRET` | _(случайный)_ | Ключ подписи JWT |
-| `ADMIN_USERNAME` | `admin` | Создаётся при первом запуске |
-| `ADMIN_PASSWORD` | `admin` | Создаётся при первом запуске — **поменяй!** |
-| `DB_PATH` | `./data/panel.db` | Путь к SQLite |
-
-## 🔒 Production: nginx + HTTPS
-
-Всегда запускай за HTTPS-прокси. Пример nginx:
-
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name panel.example.com;
-    ssl_certificate     /etc/letsencrypt/live/panel.example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/panel.example.com/privkey.pem;
-
-    location / {
-        proxy_pass http://127.0.0.1:8787;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_read_timeout 86400;
-    }
-}
-```
-
-И спрячь панель за localhost:
-
-```env
-HOST=127.0.0.1
-```
-
-## ⚠️ Безопасность
-
-- Панель запускается **от root** для reboot / kill / systemd / Docker. Только в доверенной сети, только за HTTPS, только с сильным паролем.
-- `.env` содержит секреты. Никогда не коммить (он в `.gitignore`).
-- SSH-креды удалённых серверов лежат в SQLite в открытом виде. Если нужно шифрованное хранилище — приветствую PR 🙌
-
-## ⌨️ Горячие клавиши
+### ⌨️ Горячие клавиши
 
 | Действие | Клавиши |
 |---|---|
@@ -164,41 +123,64 @@ HOST=127.0.0.1
 | ❓ Помощь | `?` |
 | 🔄 Обновить раздел | `r` |
 | 📱 Сайдбар | `m` |
-| 🔍 Фокус на фильтр | `/` |
-| ✖️ Закрыть модал/drawer | `Esc` |
-| 🧭 Навигация | `g` затем `d` (дашборд) `s` (серверы) `t` (терминал) `v` (vnc) `e` (сервисы) `p` (процессы) `k` (docker) |
+| 🔍 Фильтр | `/` |
+| ✖️ Закрыть | `Esc` |
+| 🧭 Навигация | `g` затем `d/s/t/v/e/p/k` |
 
-**В терминале** есть экранная клавиатура: `Ctrl Alt Shift Esc Tab ⌫ ↑↓←→ Home End PgUp PgDn ^C ^D ^L ^Z ^O ^X ^W ^K ^U F1…F12`, плюс кнопки Copy / Paste / Clear / Reconnect. Sticky-модификаторы: тапнул Ctrl → подсветился оранжевым → следующая буква уйдёт как Ctrl+буква → модификатор сбросился.
+**В терминале:** `Ctrl Alt Shift Esc Tab ⌫ ↑↓←→ Home End PgUp PgDn ^C ^D ^L ^Z ^O ^X ^W ^K ^U F1…F12` + Copy/Paste/Clear/Reconnect
 
-## 🗺️ Roadmap
+---
 
-- [ ] 🔐 2FA (TOTP)
-- [ ] 👥 Multi-user с ролями
-- [ ] 🔑 Шифрованное хранилище SSH-кредов
-- [ ] 🌐 WireGuard / Tailscale вкладка
-- [ ] 📈 Исторические графики (cAdvisor-style)
-- [ ] 🔌 Plugin-система
-- [ ] 📜 Файловый менеджер
-- [ ] 🔔 Webhooks / Telegram алерты
+### 🗺️ Roadmap
 
-## 🤝 Контрибьютинг
+* [ ] 🔐 2FA (TOTP)
+* [ ] 👥 Multi-user с ролями
+* [ ] 🔑 Шифрованное хранилище SSH-кредов
+* [ ] 🌐 WireGuard / Tailscale
+* [ ] 📈 Исторические графики
+* [ ] 🔌 Plugin-система
+* [ ] 📜 Файловый менеджер
+* [ ] 🔔 Webhooks / Telegram алерты
 
-См. [CONTRIBUTING.md](CONTRIBUTING.md). PR'ы приветствуются. Issue с багами и идеями — тоже 🙏
+---
 
-## 📜 Лицензия
+### 📊 Статистика репозитория
 
-[MIT](LICENSE) © WebPanel contributors
+<p align="left">
+  <a href="https://github.com/rv0x3l/webpanel">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=rv0x3l&repo=webpanel&theme=radical&hide_border=true&title_color=F38020&icon_color=F38020" />
+  </a>
+</p>
 
-## 🙏 Благодарности
+<p align="left">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=rv0x3l&repo=webpanel&layout=compact&theme=radical&hide_border=true&title_color=F38020" height="150" />
+</p>
 
-- [xterm.js](https://xtermjs.org/) — терминальный эмулятор
-- [noVNC](https://novnc.com/) — VNC клиент
-- [systeminformation](https://systeminformation.io/) — системные метрики
-- [ssh2](https://github.com/mscdex/ssh2) — удалённые шеллы
+---
 
-<div align="center">
-<br />
+### 🤝 Контрибьютинг
 
-⭐ **Поставь звезду если проект понравился** ⭐
+PR'ы и идеи приветствуются 🙏 См. [CONTRIBUTING.md](CONTRIBUTING.md)
 
-</div>
+### 📜 Лицензия
+
+[MIT](LICENSE) © [rv0x3l](https://github.com/rv0x3l)
+
+### 🙏 Благодарности
+
+[xterm.js](https://xtermjs.org/) · [noVNC](https://novnc.com/) · [systeminformation](https://systeminformation.io/) · [ssh2](https://github.com/mscdex/ssh2)
+
+---
+
+<p align="center">
+  <a href="https://t.me/rv0x3l"><img src="https://img.shields.io/badge/Telegram-0088CC?style=flat-square&logo=telegram&logoColor=white" /></a>
+  <img src="https://komarev.com/ghpvc/?username=rv0x3l&color=F38020&style=flat-square&label=Repo+views" />
+</p>
+
+<p align="center">
+  ⭐ <b>Если зашло — поставь звезду</b> ⭐
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=F38020&height=100&section=footer" width="100%" />
+</p>
