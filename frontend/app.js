@@ -93,6 +93,11 @@ async function loadServers() {
     .join('');
   sel.onchange = () => {
     state.activeServerId = parseInt(sel.value, 10);
+    // reset history so sparklines don't mix data from different servers
+    state.history = { cpu: [], mem: [], disk: [], net: [] };
+    state.lastNet = null;
+    // reconnect stats stream to new server
+    connectStatsWs();
     // re-render current view
     navigate(location.hash);
   };
@@ -132,18 +137,22 @@ function navigate(hash) {
 function connectStatsWs() {
   if (state.ws) try { state.ws.close(); } catch {}
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-  const ws = new WebSocket(`${proto}://${location.host}/ws/stats`);
+  const sid = state.activeServerId || '';
+  const ws = new WebSocket(`${proto}://${location.host}/ws/stats?serverId=${sid}`);
   state.ws = ws;
+  state.wsServerId = state.activeServerId;
   ws.onopen = () => updateWsStatus(true);
   ws.onclose = () => {
     updateWsStatus(false);
-    setTimeout(connectStatsWs, 3000);
+    // only auto-reconnect if user hasn't switched servers
+    if (state.wsServerId === state.activeServerId) setTimeout(connectStatsWs, 3000);
   };
   ws.onerror = () => updateWsStatus(false);
   ws.onmessage = ev => {
     try {
       const msg = JSON.parse(ev.data);
       if (msg.type === 'stats') applyStats(msg.data);
+      else if (msg.type === 'error') toast('Стрим: ' + msg.message);
     } catch {}
   };
 }
@@ -216,9 +225,14 @@ function applyStats(d) {
 
 // ---------- Dashboard ----------
 async function initDashboard() {
+  const srv = state.servers.find(s => s.id === state.activeServerId);
+  const isRemote = srv && !srv.is_local;
+  // show which server is shown
+  $('#crumb').textContent = 'Дашборд' + (srv ? ` — ${srv.name}` : '');
   // system info
   try {
-    const s = await api('/system/static');
+    const sid = state.activeServerId || '';
+    const s = await api('/system/static?serverId=' + sid);
     $('#sys-info').innerHTML = `
       <tr><td>Hostname</td><td>${escapeHtml(s.hostname)}</td></tr>
       <tr><td>OS</td><td>${escapeHtml(s.os)}</td></tr>

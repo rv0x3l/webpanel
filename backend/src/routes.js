@@ -6,6 +6,15 @@ import { actions, runCommand } from './exec.js';
 import { execOnServer } from './sshClient.js';
 import * as sd from './systemd.js';
 import * as dk from './docker.js';
+import { RemoteStats } from './remoteStats.js';
+
+// Cache RemoteStats per server id for /system/static (live stream uses its own per-WS instance)
+const staticRemoteCache = new Map();
+function getOrCreateRemote(srv) {
+  let r = staticRemoteCache.get(srv.id);
+  if (!r) { r = new RemoteStats(srv); staticRemoteCache.set(srv.id, r); }
+  return r;
+}
 
 const router = express.Router();
 
@@ -32,10 +41,26 @@ router.get('/auth/me', authMiddleware, (req, res) => {
 });
 
 router.get('/system/static', authMiddleware, async (req, res) => {
+  const serverId = parseInt(req.query.serverId || '0', 10);
+  if (serverId) {
+    const srv = getDb().prepare('SELECT * FROM servers WHERE id = ?').get(serverId);
+    if (srv && !srv.is_local) {
+      try { return res.json(await getOrCreateRemote(srv).getStatic()); }
+      catch (e) { return res.status(502).json({ error: 'SSH: ' + e.message }); }
+    }
+  }
   res.json(await getStatic());
 });
 
 router.get('/system/live', authMiddleware, async (req, res) => {
+  const serverId = parseInt(req.query.serverId || '0', 10);
+  if (serverId) {
+    const srv = getDb().prepare('SELECT * FROM servers WHERE id = ?').get(serverId);
+    if (srv && !srv.is_local) {
+      try { return res.json(await getOrCreateRemote(srv).getLive()); }
+      catch (e) { return res.status(502).json({ error: 'SSH: ' + e.message }); }
+    }
+  }
   res.json(await getLive());
 });
 

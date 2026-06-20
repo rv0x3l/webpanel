@@ -13,6 +13,7 @@ import { verifyToken } from './src/auth.js';
 import { getLive } from './src/stats.js';
 import { createSshShell } from './src/sshClient.js';
 import { bridgeWsToVnc } from './src/vncProxy.js';
+import { RemoteStats } from './src/remoteStats.js';
 import routes from './src/routes.js';
 import { spawn } from 'node:child_process';
 
@@ -75,15 +76,40 @@ wss.on('connection', async (ws, req) => {
 
   try {
     if (route === '/ws/stats') {
-      // Live system stats stream (local)
+      // Live system stats stream (local or remote via SSH)
+      const serverId = parseInt(url.searchParams.get('serverId') || '0', 10);
+      let getter;
+      let remote = null;
+
+      if (serverId) {
+        const db = getDb();
+        const srv = db.prepare('SELECT * FROM servers WHERE id = ?').get(serverId);
+        if (srv && !srv.is_local) {
+          remote = new RemoteStats(srv);
+          try { await remote.ensure(); }
+          catch (e) {
+            try { ws.send(JSON.stringify({ type: 'error', message: 'SSH: ' + e.message })); } catch {}
+            ws.close();
+            return;
+          }
+          getter = () => remote.getLive();
+        }
+      }
+      if (!getter) getter = getLive;
+
       const send = async () => {
         try {
-          ws.send(JSON.stringify({ type: 'stats', data: await getLive() }));
-        } catch {}
+          ws.send(JSON.stringify({ type: 'stats', data: await getter() }));
+        } catch (e) {
+          try { ws.send(JSON.stringify({ type: 'error', message: e.message })); } catch {}
+        }
       };
       await send();
       const iv = setInterval(send, 2000);
-      ws.on('close', () => clearInterval(iv));
+      ws.on('close', () => {
+        clearInterval(iv);
+        if (remote) remote.close();
+      });
       return;
     }
 
