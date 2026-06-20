@@ -1,0 +1,8 @@
+{
+  "name": "ufw",
+  "label": "Firewall (UFW)",
+  "icon": "🛡",
+  "version": "1.0.0",
+  "description": "Управление правилами UFW: открыть/закрыть порты, статус.",
+  "minRole": "admin"
+}

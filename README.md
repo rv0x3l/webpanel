@@ -31,7 +31,8 @@
 | 🧬 **Процессы** | Топ, фильтр, kill в один тап. |
 | 📱 **Mobile first** | Off-canvas сайдбар, тач-кнопки 38+px, экранная клавиатура для терминала. |
 | ⚡ **Клавиатура** | `Ctrl+K` — палитра команд, `g+d/s/t/v/e/p/k` — навигация, `?` — помощь, `/` — фильтр. |
-| 🔐 **Auth** | JWT в HttpOnly cookie, bcrypt. Логин и пароль через `.env`. |
+| 🔐 **Auth** | JWT в HttpOnly cookie, bcrypt, **2FA (TOTP)**, **multi-user с ролями** (admin/operator/viewer), **API-токены** для внешнего доступа. |
+| 🔌 **Plugin-система** | Встроенные плагины: Telegram-алерты, файловый менеджер, API-токены, UFW firewall, cron-задачи. Своё пиши по [гайду](docs/PLUGINS.md). |
 
 ## 🖼️ Скриншоты
 
@@ -172,14 +173,17 @@ HOST=127.0.0.1
 
 ## 🗺️ Roadmap
 
-- [ ] 🔐 2FA (TOTP)
-- [ ] 👥 Multi-user с ролями
-- [ ] 🔑 Шифрованное хранилище SSH-кредов
-- [ ] 🌐 WireGuard / Tailscale вкладка
+- [x] 🔐 2FA (TOTP)
+- [x] 👥 Multi-user с ролями
+- [x] 🔌 Plugin-система ([гайд](docs/PLUGINS.md))
+- [x] 📜 Файловый менеджер
+- [x] 🔔 Telegram алерты
+- [x] 🔑 API-токены
+- [ ] 🛡 Шифрованное хранилище SSH-кредов
+- [ ] 🌐 WireGuard / Tailscale плагин
 - [ ] 📈 Исторические графики (cAdvisor-style)
-- [ ] 🔌 Plugin-система
-- [ ] 📜 Файловый менеджер
-- [ ] 🔔 Webhooks / Telegram алерты
+- [ ] 🔐 Let's Encrypt плагин
+- [ ] 📦 Backups плагин
 
 ## 🤝 Контрибьютинг
 

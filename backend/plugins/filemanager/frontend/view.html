@@ -1,0 +1,19 @@
+<section class="card" style="padding:0;overflow:hidden">
+  <div class="card-head" style="padding:14px 18px;border-bottom:1px solid var(--border)">
+    <h3 style="margin:0">📁 Файлы — <span id="fm-cwd" class="muted">/</span></h3>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <input id="fm-path" placeholder="/etc" class="input" style="min-width:160px">
+      <button class="btn ghost small" id="fm-up">↑</button>
+      <button class="btn ghost small" id="fm-mkdir">+ Папка</button>
+      <label class="btn ghost small" style="cursor:pointer">↑ Загрузить<input id="fm-upload" type="file" hidden></label>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:380px 1fr;min-height:520px">
+    <div id="fm-list" style="border-right:1px solid var(--border);overflow:auto;max-height:70vh">
+      <div class="muted" style="padding:14px">загрузка…</div>
+    </div>
+    <div id="fm-pane" style="padding:14px;overflow:auto;max-height:70vh">
+      <div class="muted">Выбери файл слева</div>
+    </div>
+  </div>
+</section>

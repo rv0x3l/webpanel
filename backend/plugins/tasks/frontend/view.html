@@ -1,0 +1,22 @@
+<section class="card">
+  <div class="card-head">
+    <h3>⏰ Задачи (cron)</h3>
+  </div>
+  <form id="task-form" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+    <input name="name" placeholder="Имя (backup, cleanup, …)" class="input" required>
+    <input name="schedule" placeholder='Расписание (* * * * * или @daily)' class="input" required>
+    <input name="user" placeholder="root" class="input" value="root">
+    <input name="command" placeholder="Команда (например: /usr/local/bin/backup.sh)" class="input span-2" required style="grid-column:1/3">
+    <button class="btn primary" style="grid-column:3">+ Добавить</button>
+  </form>
+  <div class="muted small" style="margin-bottom:10px">
+    Шорткаты: <code>@reboot</code>, <code>@hourly</code>, <code>@daily</code>, <code>@weekly</code>, <code>@monthly</code>.
+    Примеры: <code>0 3 * * *</code> — каждый день в 3:00, <code>*/15 * * * *</code> — каждые 15 минут.
+  </div>
+  <div class="table-wrap">
+    <table class="data" id="task-table">
+      <thead><tr><th>Имя</th><th>Расписание</th><th>User</th><th>Команда</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>

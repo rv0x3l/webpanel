@@ -1,5 +1,5 @@
 import express from 'express';
-import { authMiddleware, login } from './auth.js';
+import { authMiddleware, login, requireRole, verifyTotpStep, issueToken } from './auth.js';
 import { getDb } from './db.js';
 import { getStatic, getLive, getServices, getDockerInfo } from './stats.js';
 import { actions, runCommand } from './exec.js';
@@ -7,6 +7,8 @@ import { execOnServer } from './sshClient.js';
 import * as sd from './systemd.js';
 import * as dk from './docker.js';
 import { RemoteStats } from './remoteStats.js';
+import * as users from './users.js';
+import { audit, recentAudit } from './audit.js';
 
 // Cache RemoteStats per server id for /system/static (live stream uses its own per-WS instance)
 const staticRemoteCache = new Map();
@@ -22,13 +24,30 @@ router.post('/auth/login', (req, res) => {
   const { username, password } = req.body || {};
   if (!username || !password) return res.status(400).json({ error: 'missing creds' });
   const r = login(username, password);
-  if (!r) return res.status(401).json({ error: 'invalid credentials' });
-  res.cookie('token', r.token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    maxAge: 7 * 24 * 3600 * 1000,
-  });
+  if (!r) {
+    audit(null, 'auth.fail', { username, ip: req.ip });
+    return res.status(401).json({ error: 'invalid credentials' });
+  }
+  if (r.step === 'totp') {
+    return res.json({ step: 'totp', tmpToken: r.tmpToken });
+  }
+  res.cookie('token', r.token, { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 3600 * 1000 });
+  audit(r.user.id, 'auth.login', { ip: req.ip });
   res.json(r);
+});
+
+router.post('/auth/totp', (req, res) => {
+  const { tmpToken, code } = req.body || {};
+  if (!tmpToken || !code) return res.status(400).json({ error: 'missing fields' });
+  const user = verifyTotpStep(tmpToken, code);
+  if (!user) {
+    audit(null, 'auth.totp.fail', { ip: req.ip });
+    return res.status(401).json({ error: 'invalid code' });
+  }
+  const token = issueToken(user);
+  res.cookie('token', token, { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 3600 * 1000 });
+  audit(user.id, 'auth.login', { ip: req.ip, via: '2fa' });
+  res.json({ token, user: { id: user.id, username: user.username, role: user.role, totp_enabled: 1 } });
 });
 
 router.post('/auth/logout', (req, res) => {
@@ -37,7 +56,53 @@ router.post('/auth/logout', (req, res) => {
 });
 
 router.get('/auth/me', authMiddleware, (req, res) => {
-  res.json({ user: req.user });
+  const u = getDb().prepare('SELECT id, username, role, totp_enabled FROM users WHERE id = ?').get(req.user.id);
+  res.json({ user: u || req.user });
+});
+
+// === Users management (admin only) ===
+router.get('/users', authMiddleware, requireRole('admin'), (req, res) => {
+  res.json(users.listUsers());
+});
+router.post('/users', authMiddleware, requireRole('admin'), (req, res) => {
+  try {
+    const id = users.createUser(req.body || {});
+    audit(req.user.id, 'user.create', { id, username: req.body?.username, role: req.body?.role });
+    res.json({ id });
+  } catch (e) { res.status(400).json({ error: e.message }); }
+});
+router.put('/users/:id', authMiddleware, requireRole('admin'), (req, res) => {
+  try {
+    users.updateUser(parseInt(req.params.id, 10), req.body || {});
+    audit(req.user.id, 'user.update', { id: req.params.id, fields: Object.keys(req.body || {}) });
+    res.json({ ok: true });
+  } catch (e) { res.status(400).json({ error: e.message }); }
+});
+router.delete('/users/:id', authMiddleware, requireRole('admin'), (req, res) => {
+  try {
+    users.deleteUser(parseInt(req.params.id, 10));
+    audit(req.user.id, 'user.delete', { id: req.params.id });
+    res.json({ ok: true });
+  } catch (e) { res.status(400).json({ error: e.message }); }
+});
+
+// === TOTP self-service ===
+router.post('/users/me/totp/enroll', authMiddleware, (req, res) => {
+  try { res.json(users.enrollTotp(req.user.id)); }
+  catch (e) { res.status(400).json({ error: e.message }); }
+});
+router.post('/users/me/totp/confirm', authMiddleware, (req, res) => {
+  try { users.confirmTotp(req.user.id, req.body?.code); res.json({ ok: true }); }
+  catch (e) { res.status(400).json({ error: e.message }); }
+});
+router.post('/users/me/totp/disable', authMiddleware, (req, res) => {
+  try { users.disableTotp(req.user.id, req.body?.code); res.json({ ok: true }); }
+  catch (e) { res.status(400).json({ error: e.message }); }
+});
+
+// === Audit log ===
+router.get('/audit', authMiddleware, requireRole('admin'), (req, res) => {
+  res.json(recentAudit(parseInt(req.query.limit || '200', 10)));
 });
 
 router.get('/system/static', authMiddleware, async (req, res) => {

@@ -1,0 +1,8 @@
+{
+  "name": "webhook-tg",
+  "label": "Telegram alerts",
+  "icon": "✈",
+  "version": "1.0.0",
+  "description": "Уведомления о событиях сервера в Telegram-чат через бот.",
+  "minRole": "admin"
+}

@@ -45,7 +45,39 @@ export function initDb(dbPath) {
       details TEXT,
       created_at INTEGER NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS api_tokens (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      token_hash TEXT NOT NULL UNIQUE,
+      scopes TEXT NOT NULL DEFAULT 'read',
+      last_used_at INTEGER,
+      created_at INTEGER NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS plugin_settings (
+      plugin TEXT NOT NULL,
+      key TEXT NOT NULL,
+      value TEXT,
+      PRIMARY KEY(plugin, key)
+    );
+
+    CREATE TABLE IF NOT EXISTS notifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      level TEXT NOT NULL,
+      source TEXT,
+      message TEXT,
+      data TEXT,
+      created_at INTEGER NOT NULL
+    );
   `);
+
+  // Migration: add TOTP columns to users if missing
+  const cols = db.prepare(`PRAGMA table_info(users)`).all().map(c => c.name);
+  if (!cols.includes('totp_secret')) db.exec(`ALTER TABLE users ADD COLUMN totp_secret TEXT`);
+  if (!cols.includes('totp_enabled')) db.exec(`ALTER TABLE users ADD COLUMN totp_enabled INTEGER NOT NULL DEFAULT 0`);
 
   return db;
 }

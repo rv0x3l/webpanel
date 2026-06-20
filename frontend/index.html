@@ -19,12 +19,19 @@
       <div class="logo-dot"></div>
       <div>
         <h1>WebPanel</h1>
-        <p class="muted">Войти в панель управления</p>
+        <p class="muted" id="login-subtitle">Войти в панель управления</p>
       </div>
     </div>
-    <label>Логин<input name="username" autocomplete="username" required></label>
-    <label>Пароль<input name="password" type="password" autocomplete="current-password" required></label>
-    <button type="submit" class="btn primary">Войти →</button>
+    <div id="login-step1">
+      <label>Логин<input name="username" autocomplete="username" required></label>
+      <label>Пароль<input name="password" type="password" autocomplete="current-password" required></label>
+    </div>
+    <div id="login-step2" hidden>
+      <label>Код 2FA <span class="muted small">(6 цифр из приложения)</span>
+        <input name="totp" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code">
+      </label>
+    </div>
+    <button type="submit" class="btn primary" id="login-submit">Войти →</button>
     <p id="login-error" class="error" hidden></p>
   </form>
 </div>
@@ -45,13 +52,15 @@
       <a href="#/processes" data-route="processes"><span class="icon">≡</span>Процессы</a>
       <a href="#/docker" data-route="docker"><span class="icon">◆</span>Docker</a>
     </nav>
+    <div id="plugins-nav" style="margin-top:10px;border-top:1px solid var(--border);padding-top:10px"></div>
+    <div id="admin-nav" style="margin-top:10px"></div>
     <div class="sidebar-footer">
       <div class="server-pick">
         <label class="muted">Активный сервер</label>
         <select id="active-server"></select>
       </div>
       <div class="user-line">
-        <span id="me-username" class="muted"></span>
+        <a href="#/profile" id="me-username" class="muted" style="text-decoration:none"></a>
         <button id="logout-btn" class="btn ghost small">Выйти</button>
       </div>
     </div>
@@ -301,6 +310,99 @@
   </section>
 </template>
 
+<template id="tpl-profile">
+  <section class="card">
+    <h3>👤 Профиль</h3>
+    <div class="kv-list">
+      <div class="k">Логин</div><div id="prof-username"></div>
+      <div class="k">Роль</div><div id="prof-role"></div>
+      <div class="k">2FA</div><div id="prof-2fa-status"></div>
+    </div>
+  </section>
+  <section class="card">
+    <h3>🔐 Двухфакторная аутентификация (TOTP)</h3>
+    <div id="totp-disabled">
+      <p class="muted">Защитит твой аккаунт даже если пароль утечёт. Работает с Google Authenticator, Authy, 1Password, Aegis и другими.</p>
+      <button class="btn primary" id="totp-enroll">Включить 2FA</button>
+    </div>
+    <div id="totp-enroll-step" hidden>
+      <ol>
+        <li>Отсканируй QR в приложении-аутентификаторе</li>
+        <li>Введи 6-значный код из приложения чтобы подтвердить</li>
+      </ol>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+        <canvas id="totp-qr" width="200" height="200" style="background:#fff;border-radius:8px;padding:10px"></canvas>
+        <div>
+          <div class="muted small">или введи секрет вручную:</div>
+          <pre id="totp-secret" style="background:#000;border:1px solid var(--border);padding:8px;border-radius:6px;font-family:var(--mono);font-size:13px;margin:4px 0;user-select:all"></pre>
+          <form id="totp-confirm" style="display:flex;gap:6px;margin-top:12px">
+            <input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="123456" required class="input" style="width:120px">
+            <button class="btn primary">Подтвердить</button>
+            <button type="button" class="btn ghost" id="totp-cancel">Отмена</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="totp-enabled" hidden>
+      <p class="muted">2FA включена ✅. Для входа потребуется код из приложения.</p>
+      <form id="totp-disable-form" style="display:flex;gap:6px">
+        <input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="код 2FA" required class="input" style="width:120px">
+        <button class="btn danger">Отключить 2FA</button>
+      </form>
+    </div>
+  </section>
+</template>
+
+<template id="tpl-users">
+  <section class="card">
+    <div class="card-head">
+      <h3>👥 Пользователи</h3>
+      <button class="btn primary" id="user-add">+ Добавить</button>
+    </div>
+    <table class="data" id="users-table">
+      <thead><tr><th>Логин</th><th>Роль</th><th>2FA</th><th>Создан</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+  <div class="modal" id="user-modal" hidden>
+    <form class="modal-card" id="user-form">
+      <h3 id="user-form-title">Новый пользователь</h3>
+      <div class="form-grid">
+        <label>Логин<input name="username" required></label>
+        <label>Пароль<input name="password" type="password" placeholder="(оставь пустым чтобы не менять при правке)"></label>
+        <label class="span-2">Роль
+          <select name="role">
+            <option value="viewer">viewer — только чтение</option>
+            <option value="operator" selected>operator — серверные действия</option>
+            <option value="admin">admin — полный доступ + пользователи</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn ghost" id="user-cancel">Отмена</button>
+        <button type="submit" class="btn primary">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<template id="tpl-audit">
+  <section class="card">
+    <div class="card-head">
+      <h3>📜 Журнал действий</h3>
+      <input id="audit-filter" placeholder="Фильтр…" class="input">
+    </div>
+    <div class="table-wrap">
+      <table class="data" id="audit-table">
+        <thead><tr><th>Время</th><th>Пользователь</th><th>Действие</th><th>Детали</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</template>
+
+<template id="tpl-plugin"><section class="card"><div class="muted">Загрузка плагина…</div></section></template>
+
 <template id="tpl-docker">
   <section class="card" id="docker-info">
     <div class="card-head">
@@ -345,6 +447,7 @@
 <!-- libs -->
 <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script src="/app.js" type="module"></script>
 </body>
 </html>

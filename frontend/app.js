@@ -46,25 +46,48 @@ function showApp() {
   $('#me-username').textContent = state.user?.username || '';
 }
 
+let loginTmpToken = null;
 $('#login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const err = $('#login-error');
   err.hidden = true;
   try {
-    const r = await fetch('/api/auth/login', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
-    });
-    if (!r.ok) throw new Error('invalid');
-    const d = await r.json();
-    state.user = d.user;
-    showApp();
-    await boot();
+    if ($('#login-step2').hidden) {
+      // Step 1: username + password
+      const r = await fetch('/api/auth/login', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+      });
+      if (!r.ok) throw new Error('invalid');
+      const d = await r.json();
+      if (d.step === 'totp') {
+        loginTmpToken = d.tmpToken;
+        $('#login-step1').hidden = true;
+        $('#login-step2').hidden = false;
+        $('#login-subtitle').textContent = 'Введи код из приложения 2FA';
+        $('#login-form').elements.totp.focus();
+        return;
+      }
+      state.user = d.user;
+      showApp();
+      await boot();
+    } else {
+      // Step 2: TOTP
+      const r = await fetch('/api/auth/totp', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tmpToken: loginTmpToken, code: fd.get('totp') }),
+      });
+      if (!r.ok) throw new Error('invalid');
+      const d = await r.json();
+      state.user = d.user;
+      showApp();
+      await boot();
+    }
   } catch {
-    err.textContent = 'Неверный логин или пароль';
+    err.textContent = $('#login-step2').hidden ? 'Неверный логин или пароль' : 'Неверный код 2FA';
     err.hidden = false;
   }
 });
@@ -76,8 +99,31 @@ $('#logout-btn')?.addEventListener('click', async () => {
 // ---------- Boot ----------
 async function boot() {
   await loadServers();
+  await loadPlugins();
+  buildAdminNav();
   connectStatsWs();
   navigate(location.hash || '#/dashboard');
+}
+
+// ---------- Plugins ----------
+async function loadPlugins() {
+  try {
+    state.plugins = await api('/plugins');
+  } catch { state.plugins = []; }
+  const nav = $('#plugins-nav');
+  nav.innerHTML = state.plugins.length
+    ? '<div class="muted small" style="padding:0 10px 6px;text-transform:uppercase;letter-spacing:.05em;font-size:10px">Плагины</div>' +
+      state.plugins.map(p => `<a href="#/p/${escapeHtml(p.name)}" data-route="p:${escapeHtml(p.name)}"><span class="icon">${escapeHtml(p.icon)}</span>${escapeHtml(p.label)}</a>`).join('')
+    : '';
+}
+
+function buildAdminNav() {
+  const nav = $('#admin-nav');
+  const isAdmin = state.user?.role === 'admin';
+  if (!isAdmin) { nav.innerHTML = ''; return; }
+  nav.innerHTML = '<div class="muted small" style="padding:0 10px 6px;text-transform:uppercase;letter-spacing:.05em;font-size:10px">Админ</div>' +
+    '<a href="#/users" data-route="users"><span class="icon">👥</span>Пользователи</a>' +
+    '<a href="#/audit" data-route="audit"><span class="icon">📜</span>Журнал</a>';
 }
 
 window.addEventListener('hashchange', () => navigate(location.hash));
@@ -106,9 +152,20 @@ async function loadServers() {
 // ---------- Router ----------
 function navigate(hash) {
   const route = (hash || '#/dashboard').replace('#/', '');
-  $$('.sidebar nav a').forEach(a => a.classList.toggle('active', a.dataset.route === route));
+  // mark active in core nav
+  $$('.sidebar nav a, #admin-nav a, #plugins-nav a').forEach(a => {
+    a.classList.toggle('active', a.dataset.route === route || a.dataset.route === 'p:' + route.replace('p/', ''));
+  });
   const view = $('#view');
   view.innerHTML = '';
+
+  // Plugin route
+  if (route.startsWith('p/')) {
+    const pluginName = route.slice(2);
+    initPluginView(pluginName);
+    return;
+  }
+
   const tpl = $(`#tpl-${route}`);
   if (!tpl) { view.innerHTML = '<div class="card">Раздел не найден.</div>'; return; }
   view.appendChild(tpl.content.cloneNode(true));
@@ -120,6 +177,9 @@ function navigate(hash) {
     services: 'Сервисы',
     processes: 'Процессы',
     docker: 'Docker',
+    profile: 'Профиль',
+    users: 'Пользователи',
+    audit: 'Журнал действий',
   }[route] || route;
 
   ({
@@ -130,7 +190,60 @@ function navigate(hash) {
     services: initServices,
     processes: initProcesses,
     docker: initDocker,
+    profile: initProfile,
+    users: initUsers,
+    audit: initAudit,
   })[route]?.();
+}
+
+// ---------- Plugin view loader ----------
+async function initPluginView(name) {
+  const view = $('#view');
+  const plugin = state.plugins.find(p => p.name === name);
+  $('#crumb').textContent = plugin?.label || name;
+  view.innerHTML = '<div class="card"><div class="muted">Загрузка плагина…</div></div>';
+  try {
+    const [html, mod] = await Promise.all([
+      fetch(`/p/${name}/view.html`).then(r => r.ok ? r.text() : Promise.reject(new Error(r.status))),
+      import(`/p/${name}/view.js?t=${Date.now()}`),
+    ]);
+    view.innerHTML = html;
+    if (typeof mod.default === 'function') {
+      await mod.default(makeWP(name, view));
+    }
+  } catch (e) {
+    view.innerHTML = `<div class="card"><h3>Ошибка загрузки плагина</h3><pre>${escapeHtml(e.message)}</pre></div>`;
+  }
+}
+
+// ---------- Window.WP — SDK exposed to plugins ----------
+function makeWP(pluginName, view) {
+  const base = `/api/p/${pluginName}`;
+  async function req(method, p, body) {
+    const opts = { method, credentials: 'include', headers: { 'Content-Type': 'application/json' } };
+    if (body !== undefined) opts.body = JSON.stringify(body);
+    const r = await fetch(base + p, opts);
+    const ct = r.headers.get('content-type') || '';
+    const data = ct.includes('json') ? await r.json() : await r.text();
+    if (!r.ok) throw new Error(typeof data === 'object' ? (data.error || JSON.stringify(data)) : data);
+    return data;
+  }
+  return {
+    plugin: pluginName,
+    view,
+    api: {
+      get:  (p)        => req('GET', p),
+      post: (p, body)  => req('POST', p, body || {}),
+      put:  (p, body)  => req('PUT', p, body || {}),
+      del:  (p)        => req('DELETE', p),
+    },
+    toast,
+    escapeHtml,
+    openDrawer,
+    closeDrawer,
+    navigate,
+    state,
+  };
 }
 
 // ---------- Stats WS ----------
@@ -807,6 +920,136 @@ async function openContainerDrawer(id) {
       else openContainerDrawer(id);
     };
   });
+}
+
+// ---------- Profile / 2FA ----------
+async function initProfile() {
+  const me = (await api('/auth/me')).user;
+  state.user = me;
+  $('#prof-username').textContent = me.username;
+  $('#prof-role').textContent = me.role;
+  const en = !!me.totp_enabled;
+  $('#prof-2fa-status').innerHTML = en
+    ? '<span class="badge on">включена</span>'
+    : '<span class="badge off">выключена</span>';
+  $('#totp-disabled').hidden = en;
+  $('#totp-enabled').hidden = !en;
+
+  $('#totp-enroll').onclick = async () => {
+    const r = await api('/users/me/totp/enroll', { method: 'POST' });
+    $('#totp-disabled').hidden = true;
+    $('#totp-enroll-step').hidden = false;
+    $('#totp-secret').textContent = r.secret;
+    // Generate QR with qrcode-generator
+    const qr = qrcode(0, 'M'); qr.addData(r.uri); qr.make();
+    const c = $('#totp-qr'); const ctx = c.getContext('2d');
+    const size = qr.getModuleCount(); const cell = Math.floor(c.width / size);
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle = '#000';
+    for (let r = 0; r < size; r++) for (let col = 0; col < size; col++) {
+      if (qr.isDark(r, col)) ctx.fillRect(col*cell, r*cell, cell, cell);
+    }
+  };
+  $('#totp-cancel').onclick = () => { $('#totp-enroll-step').hidden = true; $('#totp-disabled').hidden = false; };
+  $('#totp-confirm').onsubmit = async (e) => {
+    e.preventDefault();
+    const code = new FormData(e.target).get('code');
+    try {
+      await api('/users/me/totp/confirm', { method: 'POST', body: JSON.stringify({ code }) });
+      toast('2FA включена ✅');
+      initProfile();
+    } catch (err) { toast('Неверный код: ' + err.message); }
+  };
+  $('#totp-disable-form').onsubmit = async (e) => {
+    e.preventDefault();
+    const code = new FormData(e.target).get('code');
+    try {
+      await api('/users/me/totp/disable', { method: 'POST', body: JSON.stringify({ code }) });
+      toast('2FA отключена');
+      initProfile();
+    } catch (err) { toast('Ошибка: ' + err.message); }
+  };
+}
+
+// ---------- Users (admin) ----------
+async function initUsers() {
+  const tb = $('#users-table tbody');
+  const reload = async () => {
+    const users = await api('/users');
+    tb.innerHTML = users.map(u => `
+      <tr>
+        <td><strong>${escapeHtml(u.username)}</strong></td>
+        <td><span class="badge tag">${u.role}</span></td>
+        <td>${u.totp_enabled ? '<span class="badge on">on</span>' : '<span class="muted small">—</span>'}</td>
+        <td class="muted small">${new Date(u.created_at).toLocaleString()}</td>
+        <td>
+          <button class="btn ghost small" data-edit='${escapeHtml(JSON.stringify(u))}'>✎</button>
+          <button class="btn ghost small" data-del="${u.id}">✕</button>
+        </td>
+      </tr>`).join('');
+    tb.onclick = async (e) => {
+      if (e.target.dataset.del) {
+        if (!confirm('Удалить пользователя?')) return;
+        try { await api('/users/' + e.target.dataset.del, { method: 'DELETE' }); reload(); }
+        catch (err) { toast('Ошибка: ' + err.message); }
+      } else if (e.target.dataset.edit) {
+        openUserForm(JSON.parse(e.target.dataset.edit));
+      }
+    };
+  };
+  await reload();
+  $('#user-add').onclick = () => openUserForm();
+  $('#user-cancel').onclick = () => ($('#user-modal').hidden = true);
+  $('#user-form').onsubmit = async (e) => {
+    e.preventDefault();
+    const fd = Object.fromEntries(new FormData(e.target).entries());
+    const id = e.target.dataset.id;
+    try {
+      if (id) {
+        const body = { role: fd.role };
+        if (fd.password) body.password = fd.password;
+        await api('/users/' + id, { method: 'PUT', body: JSON.stringify(body) });
+      } else {
+        await api('/users', { method: 'POST', body: JSON.stringify(fd) });
+      }
+      $('#user-modal').hidden = true;
+      reload();
+    } catch (err) { toast('Ошибка: ' + err.message); }
+  };
+}
+function openUserForm(user) {
+  const form = $('#user-form');
+  form.reset();
+  form.dataset.id = '';
+  $('#user-form-title').textContent = user ? `Редактирование: ${user.username}` : 'Новый пользователь';
+  if (user) {
+    form.dataset.id = user.id;
+    form.elements.username.value = user.username;
+    form.elements.username.disabled = true;
+    form.elements.role.value = user.role;
+  } else {
+    form.elements.username.disabled = false;
+  }
+  $('#user-modal').hidden = false;
+}
+
+// ---------- Audit log ----------
+async function initAudit() {
+  const list = await api('/audit?limit=300');
+  const tb = $('#audit-table tbody');
+  const render = (q = '') => {
+    tb.innerHTML = list
+      .filter(r => !q || (r.username + ' ' + r.action + ' ' + (r.details || '')).toLowerCase().includes(q.toLowerCase()))
+      .map(r => `
+        <tr>
+          <td class="muted small">${new Date(r.created_at).toLocaleString()}</td>
+          <td>${escapeHtml(r.username || '—')}</td>
+          <td><code>${escapeHtml(r.action)}</code></td>
+          <td class="muted small"><code>${escapeHtml(r.details || '')}</code></td>
+        </tr>`).join('');
+  };
+  render();
+  $('#audit-filter').oninput = (e) => render(e.target.value);
 }
 
 // ---------- Helpers ----------

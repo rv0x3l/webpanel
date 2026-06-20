@@ -9,11 +9,12 @@ import { fileURLToPath } from 'node:url';
 import rateLimit from 'express-rate-limit';
 
 import { initDb, ensureAdmin, ensureLocalServer, getDb } from './src/db.js';
-import { verifyToken } from './src/auth.js';
+import { verifyToken, authMiddleware } from './src/auth.js';
 import { getLive } from './src/stats.js';
 import { createSshShell } from './src/sshClient.js';
 import { bridgeWsToVnc } from './src/vncProxy.js';
 import { RemoteStats } from './src/remoteStats.js';
+import { loadPlugins, pluginsAccessibleTo } from './src/pluginLoader.js';
 import routes from './src/routes.js';
 import { spawn } from 'node:child_process';
 
@@ -33,12 +34,23 @@ app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 
 app.use('/api/auth/login', rateLimit({ windowMs: 60_000, max: 20 }));
+app.use('/api/auth/totp', rateLimit({ windowMs: 60_000, max: 20 }));
 app.use('/api', routes);
+
+const wsHandlers = new Map(); // path → handler(ws, req, url)
+
+// Load plugins
+const PLUGINS_DIR = path.resolve(__dirname, 'plugins');
+const plugins = await loadPlugins({ app, wsHandlers, pluginsDir: PLUGINS_DIR });
+
+app.get('/api/plugins', authMiddleware, (req, res) => {
+  res.json(pluginsAccessibleTo(plugins, req.user.role));
+});
 
 // Static frontend
 const FRONT_DIR = path.resolve(__dirname, '..', 'frontend');
 app.use(express.static(FRONT_DIR));
-app.get(/^(?!\/api).*/, (req, res) => {
+app.get(/^(?!\/(api|p)(\/|$)).*/, (req, res) => {
   res.sendFile(path.join(FRONT_DIR, 'index.html'));
 });
 
@@ -168,6 +180,14 @@ wss.on('connection', async (ws, req) => {
         ws.send(`\r\nSSH error: ${e.message}\r\n`);
         ws.close();
       }
+      return;
+    }
+
+    // Plugin WS handlers
+    if (route.startsWith('/ws/p/')) {
+      const h = wsHandlers.get(route);
+      if (h) { await h(ws, req, url); return; }
+      ws.close(1008, 'plugin ws not found');
       return;
     }
 

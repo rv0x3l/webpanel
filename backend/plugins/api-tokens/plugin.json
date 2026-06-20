@@ -1,0 +1,8 @@
+{
+  "name": "api-tokens",
+  "label": "API токены",
+  "icon": "🔑",
+  "version": "1.0.0",
+  "description": "Создание и управление API-токенами для внешнего доступа к панели.",
+  "minRole": "admin"
+}

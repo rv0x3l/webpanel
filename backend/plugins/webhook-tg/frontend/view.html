@@ -1,0 +1,32 @@
+<section class="card">
+  <h3>✈ Telegram alerts</h3>
+  <p class="muted">Получай уведомления в Telegram-чат о превышении нагрузки и подозрительных входах.</p>
+  <form id="tg-form" class="form-grid" style="grid-template-columns:1fr 1fr;gap:14px">
+    <label class="span-2">
+      Bot token <span class="muted small">(<a href="https://t.me/BotFather" target="_blank">@BotFather</a> → /newbot)</span>
+      <input name="bot_token" type="password" placeholder="123456:ABC-DEF…" autocomplete="off">
+    </label>
+    <label>Chat ID <span class="muted small">(твой ID или -100... для канала)</span><input name="chat_id" placeholder="123456789"></label>
+    <label style="display:flex;align-items:flex-end;gap:8px"><input type="checkbox" name="enabled"> Включено</label>
+
+    <fieldset class="span-2" style="border:1px solid var(--border);border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <legend class="muted small">Пороги (%)</legend>
+      <label>CPU<input name="th_cpu" type="number" min="50" max="100" value="90"></label>
+      <label>RAM<input name="th_mem" type="number" min="50" max="100" value="90"></label>
+      <label>Диск<input name="th_disk" type="number" min="50" max="100" value="90"></label>
+    </fieldset>
+
+    <fieldset class="span-2" style="border:1px solid var(--border);border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <legend class="muted small">Какие алерты</legend>
+      <label><input type="checkbox" name="a_cpu"> 🔥 CPU выше порога</label>
+      <label><input type="checkbox" name="a_mem"> 💾 RAM выше порога</label>
+      <label><input type="checkbox" name="a_disk"> 🗄 Диск выше порога</label>
+      <label><input type="checkbox" name="a_auth"> ⚠️ Неудачные входы</label>
+    </fieldset>
+
+    <div class="span-2" style="display:flex;gap:8px;justify-content:flex-end">
+      <button type="button" class="btn ghost" id="tg-test">Отправить тест</button>
+      <button type="submit" class="btn primary">Сохранить</button>
+    </div>
+  </form>
+</section>

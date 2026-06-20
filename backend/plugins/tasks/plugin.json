@@ -1,0 +1,8 @@
+{
+  "name": "tasks",
+  "label": "Задачи (cron)",
+  "icon": "⏰",
+  "version": "1.0.0",
+  "description": "Планировщик задач через cron (/etc/cron.d/webpanel-*).",
+  "minRole": "admin"
+}

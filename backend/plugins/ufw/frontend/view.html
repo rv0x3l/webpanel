@@ -1,0 +1,29 @@
+<section class="card">
+  <div class="card-head">
+    <h3>🛡 Firewall (UFW)</h3>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="btn ghost small" id="ufw-reload">Reload</button>
+      <button class="btn ghost small" id="ufw-enable">Enable</button>
+      <button class="btn danger small" id="ufw-disable">Disable</button>
+    </div>
+  </div>
+  <form id="ufw-add" style="display:grid;grid-template-columns:repeat(5,1fr) auto;gap:8px;margin-bottom:14px">
+    <select name="action" class="input">
+      <option value="allow">allow</option>
+      <option value="deny">deny</option>
+      <option value="reject">reject</option>
+      <option value="limit">limit</option>
+    </select>
+    <input name="port" placeholder="Порт (22, 80, 8000:9000)" class="input" required>
+    <select name="proto" class="input">
+      <option value="tcp">tcp</option>
+      <option value="udp">udp</option>
+      <option value="any">any</option>
+    </select>
+    <input name="from" placeholder="Откуда (1.2.3.4 / any)" class="input">
+    <input name="comment" placeholder="Комментарий" class="input">
+    <button class="btn primary">+ Добавить</button>
+  </form>
+  <pre id="ufw-status" style="background:#000;border:1px solid var(--border);padding:12px;border-radius:8px;font-family:var(--mono);font-size:12px;color:#d4d4d4;white-space:pre-wrap;max-height:60vh;overflow:auto">загрузка…</pre>
+  <div id="ufw-rule-actions" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div>
+</section>

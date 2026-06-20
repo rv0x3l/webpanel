@@ -1,0 +1,44 @@
+<section class="card">
+  <div class="card-head">
+    <h3>🔑 API токены</h3>
+    <button class="btn primary" id="tok-add">+ Новый токен</button>
+  </div>
+  <p class="muted small">Используй <code>X-API-Token: wp_…</code> в HTTP-заголовке для запросов к <code>/api/*</code>. Токены с правом <code>read</code> работают только для GET.</p>
+  <div class="table-wrap">
+    <table class="data" id="tok-table">
+      <thead><tr><th>Имя</th><th>Владелец</th><th>Scopes</th><th>Создан</th><th>Использован</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="modal" id="tok-modal" hidden>
+  <form class="modal-card" id="tok-form">
+    <h3>Новый API токен</h3>
+    <div class="form-grid">
+      <label class="span-2">Имя<input name="name" required placeholder="ci-bot, monitoring, …"></label>
+      <label class="span-2">Scopes
+        <select name="scopes">
+          <option value="read">read — только GET-запросы</option>
+          <option value="write">write — все методы</option>
+        </select>
+      </label>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn ghost" id="tok-cancel">Отмена</button>
+      <button type="submit" class="btn primary">Создать</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal" id="tok-show" hidden>
+  <div class="modal-card">
+    <h3>🔑 Токен создан</h3>
+    <p class="muted small">Скопируй сейчас — больше он показан не будет.</p>
+    <pre id="tok-value" style="background:#000;border:1px solid var(--border);padding:12px;border-radius:8px;font-family:var(--mono);font-size:13px;word-break:break-all;user-select:all"></pre>
+    <div class="form-actions">
+      <button class="btn ghost" id="tok-copy">Скопировать</button>
+      <button class="btn primary" id="tok-done">Готово</button>
+    </div>
+  </div>
+</div>
