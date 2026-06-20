@@ -170,14 +170,18 @@ HOST=127.0.0.1
 
 ## 🗺️ Roadmap
 
-- [ ] 🔐 2FA (TOTP)
-- [ ] 👥 Multi-user with roles
-- [ ] 🔑 Encrypted SSH credential storage
-- [ ] 🌐 WireGuard / Tailscale tab
+- [x] 🔐 2FA (TOTP)
+- [x] 👥 Multi-user with roles
+- [x] 🔌 Plugin system ([guide](docs/PLUGINS.md))
+- [x] 📜 File manager
+- [x] 🔔 Telegram alerts
+- [x] 🔑 API tokens
+- [ ] 📱 Telegram MiniApp (control the panel from inside Telegram)
+- [ ] 🛡 Encrypted SSH credential storage
+- [ ] 🌐 WireGuard / Tailscale plugin
 - [ ] 📈 Historical graphs (cAdvisor-style)
-- [ ] 🔌 Plugin system
-- [ ] 📜 File manager
-- [ ] 🔔 Webhooks / Telegram alerts
+- [ ] 🔐 Let's Encrypt plugin
+- [ ] 📦 Backups plugin
 
 ## 🤝 Contributing
 
